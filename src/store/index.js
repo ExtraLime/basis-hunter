@@ -1,8 +1,15 @@
-import { createStore } from "vuex";
+import { createStore } from 'vuex'
+import { table } from './table.js'
+import { layout } from './layout.js'
+import { charts } from './charts.js'
 
-export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
-});
+
+
+export const store = createStore({   
+    
+    modules:{
+        table,
+        layout,
+        charts
+    }
+})
