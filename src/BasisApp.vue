@@ -2,6 +2,8 @@
   <layout>
       <template v-slot:top>
         <top />
+        <link-item
+        v-for='page in pages' :key='page.name' :page='page'></link-item>
       </template>
       <template v-slot:sidebar>
         <link-item
@@ -12,6 +14,7 @@
     </template>
 
   </layout>
+
 </template>
 
 <script>
@@ -31,10 +34,12 @@ export default {
 
   setup() {
     const store = useStore();
-
+    
+    
     onMounted(() => {
       store.dispatch("table/getFundingData");
-      store.dispatch("charts/getAnalyzeData");
+      store.dispatch("charts/getChartsData");
+      store.dispatch("charts/getChartData",{name:'BasisChart'});
     });
 
     const pages = computed(() => {

@@ -7,14 +7,16 @@ import AboutView from '../views/AboutView.vue';
 
 
 
+
  const routes = [
-        {
-            path:'/',
-            component: BasisApp,
+{
+          path:'/',  
+          component: BasisApp,
             children:[
                 { 
                     path: '/about',
                     component: AboutView,
+
                 }, 
                 { 
                   path: '/live',
@@ -28,8 +30,6 @@ import AboutView from '../views/AboutView.vue';
                     path: '/finance',
                     component: FinanceView,
                 },
-
-
             ]
         }
     ]
@@ -37,4 +37,5 @@ import AboutView from '../views/AboutView.vue';
         history: createWebHistory(),
         routes,
       });
+
 export default router 

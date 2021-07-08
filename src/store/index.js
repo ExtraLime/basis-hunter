@@ -5,11 +5,12 @@ import { charts } from './charts.js'
 
 
 
+
 export const store = createStore({   
     
     modules:{
         table,
         layout,
-        charts
+        charts,
     }
 })

@@ -5,9 +5,6 @@
         </div>
         
         <div class="main">
-            <div class='sidebar'>
-                <slot name='sidebar' />
-            </div>        
             <div class="content">
                 <slot name='content' />
             </div>
@@ -20,32 +17,35 @@
   height: 100vh;
 }
 .header {
-  height: 50px;
+  height: 75px;
   display: flex;
   align-items: center;
-  padding: 0 0 0 20px;
-  font-size: 20px;
+  font-size: 24px;
   font-family: Arial;
-  background-color: #202220;
+  background-color: dodgerblue;
 
 }
 .main {
   height: calc(100vh - 50px);
   border-top: 2px solid silver;
   display: flex;
-  background-color: #202220;
+  background-color: white;
   border-radius: 3%;
+
 }
 .sidebar { 
-      border-radius: 3%;
-  padding: 10px;
+  border-radius: 3%;
+
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 200px;
-  border-right: 2px solid silver;
+  background-color:black
+
 }
 .content {
   width: 100%;
-  margin: 10px;
+  background-color:black;
+  color:white;
+
 }
 </style>

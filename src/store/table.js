@@ -101,7 +101,6 @@ export const table = {
           }
         })
       );
-      console.log(fundingData);
       ctx.commit("updateFundingRates", rates);
     },
   },

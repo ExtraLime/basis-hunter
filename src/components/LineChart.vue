@@ -1,63 +1,42 @@
 <template>
-  <div class="chart-area" id="chart-area">
-    <div style="height: 600px; width: 750px">
-      <vue3-chart-js
-        :id="lineChart.id"
-        :type="lineChart.type"
-        :data="lineChart.data"
-      ></vue3-chart-js>
-    </div>
+  <div class="example">
+    <apexcharts
+      width="500"
+      height="350"
+      type="line"
+      :options="opts"
+      :series="sers"
+    ></apexcharts>
   </div>
 </template>
 
 <script>
-import Vue3ChartJs from "@j-t-mcc/vue3-chartjs";
-
+import { computed } from "vue";
+import { useStore } from "vuex";
+import VueApexCharts from "vue3-apexcharts";
 export default {
+  name: "ratesChart",
   components: {
-    Vue3ChartJs,
+    apexcharts: VueApexCharts,
   },
   props: {
-    data: {
-      type: Array,
-      required: true,
-    },
-    labels: {
-      type: Array,
-      required: true,
-    },
-    id: {
+    name: {
       type: String,
       required: true,
     },
   },
   setup(props) {
-    const lineChart = {
-      id: props.id,
-      type: "line",
-      data: {
-        labels: props.labels,
-        datasets: [
-          {
-            label: "Perptual vs Spot Price",
-            data: props.data,
-            fill: false,
-            borderColor: "rgb(75, 192, 192)",
-            tension: 0.1,
-          },
-        ],
-      },
-    };
-
-    // const beforeRenderLogic = (event) => {
-    //   //...
-    //   //if(a === b) {
-    //   //  event.preventDefault()
-    //   //}
-    // }
+    const store = useStore();
+    const opts = computed(() => {
+      return store.state.charts.chartsData.apexCharts[props.name].chartOptions;
+    });
+    const sers = computed(() => {
+      return store.state.charts.chartsData.apexCharts[props.name].series;
+    });
 
     return {
-      lineChart,
+      opts,
+      sers,
     };
   },
 };
