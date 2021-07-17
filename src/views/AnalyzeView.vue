@@ -1,71 +1,78 @@
 <template>
-  <h3>Information by Coin and Time Interval</h3>
-<div class='charts'>
-  <line-chart
-    id="basis"
-    :name="`basis`"
-    :options="dd.apexCharts.basis.chartOptionsData"
-    :series="dd.apexCharts.basis.seriesData"
-  ></line-chart>
-  <line-chart
-    id="funding"
-    :name="`funding`"
-    :options="dd.apexCharts.funding.chartOptionsData"
-    :series="dd.apexCharts.funding.seriesData"
-  ></line-chart>
-  <line-chart
-    id="bvf"
-    :name="`bvf`"
-    :options="dd.apexCharts.bvf.chartOptionsData"
-    :series="dd.apexCharts.bvf.seriesData"
-  ></line-chart>
-  <line-chart
-    id="fRates"
-    :name="`fRates`"
-    :options="dd.apexCharts.fRates.chartOptionsData"
-    :series="dd.apexCharts.fRates.seriesData"
-  ></line-chart>
+  <div class="coin-select">
+    <coin-select :coin="analyzeCoin" :interval="analyzeInterval" />
   </div>
+<div class= 'analyze-charts'>
+  <analyze-charts :dData='chartsData'  />
+</div>
 </template>
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
 import { useStore } from "vuex";
+import CoinSelect from "../components/CoinSelect.vue";
+import AnalyzeCharts from "../components/AnalyzeCharts.vue";
 import LineChart from "../components/LineChart.vue";
 
 
 export default {
   components: {
-    LineChart,
+    CoinSelect,
+    AnalyzeCharts,
 
   },
   setup() {
+    // onBeforeMount(async () => {
+    //   await store.dispatch('charts/getChartsData')
+    //   console.log('setdata')
+    // })
     const store = useStore();
+const chartsData = computed(() => {
+  const data = store.state.charts.chartsData
+  return data
+})
+console.log(chartsData)
+    const analyzeCoin = computed(() => {
+      return store.state.charts.analyzeCoin;
+    });
+    const analyzeInterval = computed(() => {
+      return store.state.charts.analyzeInterval;
+    });
 
-    onMounted(() => {
-      store.dispatch("charts/getChartData", { name: "BasisChart" });
-    });
-    const chartData = computed(() => {
-      return store.state.charts.basisChartData;
-    });
-    const dd = computed(() => {
-      return store.state.charts.chartsData;
-    });
-    console.log(dd);
-    console.log(chartData);
+
+
+    console.log(analyzeCoin, analyzeInterval);
+
     return {
-      chartData,
-      dd,
+      analyzeCoin,
+      analyzeInterval,
+      chartsData
     };
   },
 };
 </script>
 <style scoped>
 .charts {
-  display:grid;
+  display: grid;
   grid-template-columns: auto auto;
+  max-width: 75%;
+  justify-content: "center";
 }
 h3 {
-  color:white;
-  justify:center;
+  color: white;
+  justify: center;
+}
+.coin-select {
+  justify-content: center;
+  display: flex;
+}
+.analyze-charts {
+  display:grid;
+  justify-content:center;
+}
+.mdc-select:not(.mdc-select--disabled).mdc-select--focused .mdc-floating-label{
+  color:dodgerblue
+}
+.mdc-select--focused .mdc-floating-label{
+  color:dodgerblue;
 }
 </style>

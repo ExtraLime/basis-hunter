@@ -24,6 +24,7 @@ export const layout = {
                         path:'/finance',
                         description:'find the best staking rates available for your coin'
                     },
+
                 ],
         
 

@@ -5,21 +5,56 @@ export const charts = {
     return {
       analyzeCoin: "ETH",
       chartsData: {},
-      intervals: ["1m", "5m", "15m", "30m", "1h", "4h", "8h"],
-      chartInterval: "1h",
+      basisChartData: {},
+      intervals: [
+        { value: "1m", label: "1m" },
+        { value: "5m", label: "5m" },
+        { value: "15m", label: "15m" },
+        { value: "30m", label: "30m" },
+        { value: "1h", label: "1h" },
+        { value: "4h", label: "4h" },
+        { value: "8h", label: "8h" },
+      ],
+      analyzeInterval: "1h",
+      coins: [
+        { label: "ADA", value: "ADA" },
+        { label: "BCH", value: "BCH" },
+        { label: "BNB", value: "BNB" },
+        { label: "BTC", value: "BTC" },
+        { label: "DOT", value: "DOT" },
+        { label: "ETH", value: "ETH" },
+        { label: "LINK", value: "LINK" },
+        { label: "LTC", value: "LTC" },
+        { label: "XRP", value: "XRP" },
+      ],
     };
   },
+  getters:{
+    chartsData(state) {
+      return state.chartsData
+    }
+  },
   mutations: {
-
+    setAnalyzeCoin(state, data) {
+      state.analyzeCoin = data.selectedCoin.value;
+      state.analyzeInterval = data.selectedInterval.value;
+    },
     setChartsData(state, chartsData) {
-      console.log(chartsData);
+      console.log("mutation:",chartsData);
       state.chartsData = chartsData;
+    },
+    setBasisChartData(state, chartData) {
+      state.basisChartData = chartData;
     },
   },
   actions: {
+    async changeCoin(ctx, { selectedCoin, selectedInterval }) {
+      console.log(selectedCoin);
+      ctx.commit("setAnalyzeCoin", { selectedCoin, selectedInterval });
+    },
     async getChartsData(ctx) {
-      const coin = ctx.state.analyzeCoin ? ctx.state.analyzeCoin : "ETH";
-      const interval = ctx.state.intervals[6] ? ctx.state.intervals[6] : "1m";
+      const coin = ctx.state.analyzeCoin;
+      const interval = ctx.state.analyzeInterval;
       //make initial api calls to get raw data
       // const spotSymbol = coin+"USDT"
       const perpApi = await window.fetch(
@@ -88,7 +123,7 @@ export const charts = {
         amtCollected: [],
         cumsum: [],
       };
-      for (let i = 0; i < coinFundingData.length; i++) {
+      for (let i = 0; i < usdtFundingData.length; i++) {
         let date = coinFundingData[i].fundingTime;
         let adjDate = parseInt(date / 1000);
         coinFundObj[adjDate] = parseFloat(coinFundingData[i].fundingRate);
@@ -145,7 +180,7 @@ export const charts = {
         return amt / usdtPerpPrice[0];
       });
 
-      console.log(coinFundObj.asBasis, usdtFundObj.asBasis);
+      // console.log(coinFundObj.asBasis, usdtFundObj.asBasis);
 
       const labels = perpData.map((datum) => {
         const date = new Date(datum[0]).toLocaleDateString();
@@ -156,10 +191,9 @@ export const charts = {
         // basis chart
         basis: {
           chartOptions: {
-            colors: ["#E12D39","#17B897",'white'],
-            dataLabels:{
-              color:
-              'white'
+            colors: ["dodgerblue", "lightgrey", "white"],
+            dataLabels: {
+              color: "white",
             },
             stroke: {
               show: true,
@@ -176,7 +210,7 @@ export const charts = {
               },
               axisTicks: {
                 show: false,
-            },
+              },
               axisBorder: {
                 show: false,
               },
@@ -184,11 +218,11 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor:'pink'
+                backgroundColor: "pink",
               },
-              theme:'dark',
-              chart:{
-                background:'black'
+              theme: "dark",
+              chart: {
+                background: "black",
               },
               shared: true,
               y: {
@@ -206,7 +240,6 @@ export const charts = {
               id: "basis",
               background: "black",
               foreColor: "white",
-
             },
 
             markers: {
@@ -231,7 +264,7 @@ export const charts = {
         // funding collected
         funding: {
           chartOptions: {
-            colors: ["#E12D39","#17B897",'white'],            
+            colors: ["dodgerblue", "lightgrey", "white"],
             stroke: {
               show: true,
               curve: "smooth",
@@ -247,7 +280,7 @@ export const charts = {
               },
               axisTicks: {
                 show: false,
-            },
+              },
               axisBorder: {
                 show: false,
               },
@@ -255,11 +288,11 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor:'pink'
+                backgroundColor: "pink",
               },
-              theme:'dark',
-              chart:{
-                background:'black'
+              theme: "dark",
+              chart: {
+                background: "black",
               },
               shared: true,
               y: {
@@ -272,11 +305,11 @@ export const charts = {
               title: {
                 text: "USD Amount",
               },
-              labels:{
-                formatter: function(val){
-                  return val.toFixed(5)
-                }
-              }
+              labels: {
+                formatter: function (val) {
+                  return val.toFixed(5);
+                },
+              },
             },
             chart: {
               id: "basis",
@@ -306,8 +339,8 @@ export const charts = {
         //bvf chart
         bvf: {
           chartOptions: {
-            colors: ["#E12D39","#17B897",'white'],
-            
+            colors: ["dodgerblue", "lightgrey", "white"],
+
             stroke: {
               show: true,
               curve: "smooth",
@@ -323,7 +356,7 @@ export const charts = {
               },
               axisTicks: {
                 show: false,
-            },
+              },
               axisBorder: {
                 show: false,
               },
@@ -331,11 +364,11 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor:'pink'
+                backgroundColor: "pink",
               },
-              theme:'dark',
-              chart:{
-                background:'black'
+              theme: "dark",
+              chart: {
+                background: "black",
               },
               shared: true,
               y: {
@@ -345,17 +378,17 @@ export const charts = {
               },
             },
             yaxis: {
-              tickAmount:6,
-              axisTicks:{
-                color:'white'
+              tickAmount: 6,
+              axisTicks: {
+                color: "white",
               },
-              labels:{
-                style:{
-                  color:'white'
+              labels: {
+                style: {
+                  color: "white",
                 },
-                formatter: function(val){
-                  return val.toFixed(5)
-                }
+                formatter: function (val) {
+                  return val.toFixed(5);
+                },
               },
               title: {
                 text: "Rate",
@@ -393,8 +426,8 @@ export const charts = {
         //funding rate chart
         fRates: {
           chartOptions: {
-            colors: ["#E12D39","#17B897",'white'],
-            
+            colors: ["dodgerblue", "lightgrey", "white"],
+
             stroke: {
               show: true,
               curve: "smooth",
@@ -410,7 +443,7 @@ export const charts = {
               },
               axisTicks: {
                 show: false,
-            },
+              },
               axisBorder: {
                 show: false,
               },
@@ -418,11 +451,11 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor:'pink'
+                backgroundColor: "pink",
               },
-              theme:'dark',
-              chart:{
-                background:'black'
+              theme: "dark",
+              chart: {
+                background: "black",
               },
               shared: true,
               y: {
@@ -432,15 +465,15 @@ export const charts = {
               },
             },
             yaxis: {
-              tickAmount:6,
+              tickAmount: 6,
               title: {
                 text: "Rate",
               },
-              labels:{
-                formatter: function(val){
-                  return val.toFixed(5)
-                }
-              }
+              labels: {
+                formatter: function (val) {
+                  return val.toFixed(5);
+                },
+              },
             },
             chart: {
               id: "basis",
@@ -469,11 +502,40 @@ export const charts = {
         },
       };
 
-      console.log(perpData);
+   
 
       ctx.commit("setChartsData", {
         apexCharts,
       });
+    },
+    async setBasisChartData(ctx, coin) {
+      const qrtRes = await window.fetch(
+        `https://www.okex.com/api/futures/v3/instruments/${coin}-USD-210924/history/candles?granularity=86400`
+      );
+      const perpRes = await window.fetch(
+        `https://www.okex.com/api/swap/v3/instruments/${coin}-USD-SWAP/history/candles?granularity=86400`
+      );
+      const perpRev = await perpRes.json();
+      const qrtRev = await qrtRes.json();
+    
+      const perp = perpRev.reverse();
+      const qrt = qrtRev.reverse();
+      console.log(perp);
+      const basisChartData = {
+        qrt: qrt.map((tick) => {
+          return parseFloat(tick[4]);
+        }),
+        perp: perp.map((tick) => {
+          return parseFloat(tick[4]);
+        }),
+        basis: qrt.map((tick, idx) => {
+          return parseFloat(tick[4]) - parseFloat(perp[idx][4]);
+        }).map((tick,idx) => {return tick/perp[idx][4]}),
+        timestamp: qrt.map((datum) => {
+          return new Date(datum[0]).toLocaleDateString();
+        }),
+      };
+      ctx.commit("setBasisChartData", basisChartData);
     },
   },
 };

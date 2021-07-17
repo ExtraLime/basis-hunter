@@ -1,30 +1,139 @@
 <template>
-<div>{{message}}</div>
+  <div class="top">
+    <div class="logo">
+      <img
+        src="../assets/logo.png"
+        alt=""
+        width="50"
+        style="{'borderRadius':'15%'}"
+      />
+      <h3 class="title">{{ message }}</h3>
 
+      <ul v-if="props.isAuthenticated" class="navlinks">
+        <li v-for="page in pages" :key="page.name">
+          <link-item :page="page" />
+        </li>
+      </ul>
+      <ul v-else>
+        <link-item :page="{ path: '/login', name: 'Login' }" />
+      </ul>
+    </div>
+    <div>
+      <div class="signIn">
+        <ul v-if="props.isAuthenticated" class="signIn">
+          <li>
+            <link-item
+              class="logout-button"
+              @click="signOut"
+              :page="{ path: '/#', name: 'Logout' }"
+            />
+          </li>
+        </ul>
+        <ul v-else></ul>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import{ computed } from 'vue'
+import logo from "../assets/logo1.png";
+import { useStore } from "vuex";
+import { computed } from "vue";
+import LinkItem from "./LinkItem.vue";
+import firebase from "firebase/app";
+import { useRouter } from "vue-router";
 export default {
-
-    setup(){
-        const store = useStore()
-        const message = "Basis Hunter"
-        const pages = computed(() => {
-            return store.state.layout.pages
+  components: {
+    LinkItem,
+  },
+  props: {
+    isAuthenticated: {
+      type: Boolean,
+    },
+  },
+  setup(props) {
+    const router = useRouter();
+    const store = useStore();
+    const signOut = async () => {
+      firebase
+        .auth()
+        .signOut()
+        .then((res) => {
+          store.dispatch("auth/logoutAction", null);
         })
-        console.log(message)
-        return {message,
-        pages}
-    }
-}
+        .finally(() => {
+          router.push("/login");
+        });
+    };
 
+    // const isAuthenticated = computed(() => {
+    //   return store.state.auth.isAuthtenticated;
+    // });
 
+    const user = computed(() => {
+      return store.state.auth.user;
+    });
+    console.log(user);
+    const message = "Basis Trade";
+    const pages = computed(() => {
+      return store.state.layout.pages;
+    });
+
+    return { message, pages, logo, user, props, signOut };
+  },
+};
 </script>
 
 <style scoped>
+.logo {
+  display: flex;
+  align-items: center;
+  color: lightgrey;
+  margin: 3px;
+  float: left;
+}
+.top {
+  background: dodgerblue;
+  display: flex;
+  justify-content: space-evenly;
 
+  /* align-content: center; */
+  width: 100%;
+}
 
+ul {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
 
+  width: 100%;
+}
+a {
+  color: lightgrey;
+  border: none;
+  padding: 10px;
+  margin: 0 10px 5px 0;
+  font-size: 18px;
+  transition: 0.1s;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  text-decoration: none;
+  font-family: Times;
+}
+a:hover {
+  filter: brightness(125%);
+  cursor: pointer;
+  transition: 0.1s;
+}
+/* .logout-button{
+  float:right;
+  justify-self: right;
+} */
+.menu {
+  justify-self: center;
+}
+.signIn {
+  display: flex;
+}
 </style>

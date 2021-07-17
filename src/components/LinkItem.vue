@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to='page.path'  >
-    {{page.name}}
+    <ui-button >{{page.name}}</ui-button>
   </router-link>
 </template>
 
@@ -24,10 +24,9 @@ button {
   cursor: pointer;
   width: 100%;
   margin-top: 10px;
+  background-color:'ligthgrey'
 }
-button:disabled {
-  opacity: 0.5;
-}
+
 button:hover {
   filter: brightness(125%);
 }

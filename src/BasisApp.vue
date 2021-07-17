@@ -1,52 +1,69 @@
 <template>
   <layout>
-      <template v-slot:top>
-        <top />
-        <link-item
-        v-for='page in pages' :key='page.name' :page='page'></link-item>
-      </template>
-      <template v-slot:sidebar>
-        <link-item
-        v-for='page in pages' :key='page.name' :page='page'></link-item>
+    <template v-slot:top>
+      <top :user="user" :isAuthenticated="isAuthenticated" />
     </template>
     <template v-slot:content>
-            <router-view />
+      <div v-if="!isAuthenticated">
+        Welcome to Basis Trade a centralized hub for information concerning
+        crypto, basis rates savings and staking rates. If you dont have an
+        account, contact someone... Otherwise, login
+        <login />
+      </div>
+      <div v-else>
+        <router-view />
+      </div>
     </template>
-
   </layout>
-
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
+
+import { useRoute, useRouter } from "vue-router";
 import Top from "./components/Top.vue";
-import Layout from "./Layout.vue"
-import LinkItem from "./components/LinkItem.vue"
+import Layout from "./Layout.vue";
+import Login from "./auth/Login.vue";
 
 
 export default {
   components: {
     Top,
     Layout,
-    LinkItem
+    Login,
   },
 
   setup() {
     const store = useStore();
-    
-    
+    const route = useRoute();
+    const router = useRouter();
+
+    watchEffect(() =>{
+        const currentUser = computed(() => {
+          return store.state.auth.user
+        })
+        console.log(currentUser)
+        if (!currentUser.value){
+            return router.push('/')
+        }
+ 
+    })
+
     onMounted(() => {
       store.dispatch("table/getFundingData");
       store.dispatch("charts/getChartsData");
-      store.dispatch("charts/getChartData",{name:'BasisChart'});
+      store.dispatch("table/subscribe");
+      store.dispatch('finance/getRatesData')
     });
 
-    const pages = computed(() => {
-      return store.state.layout.pages;
-    });
     return {
-      pages
+      user: computed(() => {
+        return store.state.auth.user;
+      }),
+      isAuthenticated: computed(() => {
+        return store.state.auth.isAuthenticated;
+      }),
     };
   },
 };
@@ -55,31 +72,12 @@ export default {
 <style lang="scss" scoped>
 body {
   background-color: black;
-  margin:0;
+  margin: 0;
+  color: dodgerblue;
+  justify-content: center;
+  display: flex;
 }
 * {
-    box-sizing: border-box;
-    
-}
-a {
-  background:  #202222;
-  color: white;
-  border: none;
-  padding: 10px;
-  margin: 0 10px 5px 0;
-  font-size: 18px;
-
-  transition: .1s;
-  width: 100%;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  font-family: Times;
-  
-}
-a:hover {
-  filter: brightness(120%);
-  cursor: pointer;
-  transition: .1s;
+  box-sizing: border-box;
 }
 </style>

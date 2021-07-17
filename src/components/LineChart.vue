@@ -15,7 +15,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import VueApexCharts from "vue3-apexcharts";
 export default {
-  name: "ratesChart",
+  name: "LineChart",
   components: {
     apexcharts: VueApexCharts,
   },

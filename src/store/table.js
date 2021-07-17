@@ -7,6 +7,8 @@ export const table = {
       query: "",
       messages: {},
       fundingData: {},
+      basisLive:{},
+      fundingLive:{}
     };
   },
   mutations: {
@@ -83,7 +85,6 @@ export const table = {
         "ADA",
         "BCH",
         "BNB",
-        "BCH",
         "BTC",
         "DOT",
         "ETH",
