@@ -55,13 +55,14 @@ export default {
   },
 };
 </script>
-<style scoped lang= "scss">
+<style lang="scss" scoped >
 
 .tab-select{
-  width:100%
+  display:block
 }
 .mdc-tab{
   width:100%
+
 }
 .mdc-tab.mdc-ripple-upgraded{
  background-color:white;

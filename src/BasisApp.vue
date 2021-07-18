@@ -43,7 +43,7 @@ export default {
         const currentUser = computed(() => {
           return store.state.auth.user
         })
-        console.log(currentUser)
+
         if (!currentUser.value){
             return router.push('/')
         }

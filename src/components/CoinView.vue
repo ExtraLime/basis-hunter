@@ -1,20 +1,14 @@
 <template>
   <div class="coins">
-          <ul class='coinList'>
-
-    <li  v-for="coin in props.coins"
-      :key="coin.key">
-    <coin
-      :coin="coin"
-      class="coin"
-    />
-    </li>
+    <ul class="coinList">
+      <li v-for="coin in props.coins" :key="coin.key">
+        <coin :coin="coin" class="coin" />
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-
 import Coin from "../components/Coin.vue";
 
 export default {
@@ -43,13 +37,13 @@ export default {
   box-shadow: 0px 1px 9px darkgrey;
   opacity: 1;
 }
-ul{
-    list-style-type: none;
-    flex-wrap: wrap;
-    display:flex
+ul {
+  list-style-type: none;
+  flex-wrap: wrap;
+  display: flex;
 }
 .coin {
-  margin:10px
+  margin: 10px;
 }
 
 .title,
@@ -58,7 +52,7 @@ ul{
   padding: 4px;
   text-transform: capitalize;
   text-align: center;
-    border-bottom: 1px solid silver;
+  border-bottom: 1px solid silver;
 }
 .title,
 .coinApy {

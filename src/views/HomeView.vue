@@ -2,7 +2,6 @@
   <layout>
     <template v-slot:top>
       <top />
-   
     </template>
     <template v-slot:content>
       <login />
@@ -15,8 +14,7 @@ import Layout from "../Layout.vue";
 import { useStore } from "vuex";
 import Top from "../components/Top.vue";
 
-
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 export default {
   components: {
     Login,
@@ -26,9 +24,8 @@ export default {
   setup() {
     const store = useStore();
     const isAuthenticated = computed(() => {
-      return store.state.auth.isAuthenticated
-    })
-    console.log(isAuthenticated)
+      return store.state.auth.isAuthenticated;
+    });
 
     return {
       isAuthenticated,

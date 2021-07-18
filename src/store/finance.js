@@ -8,6 +8,8 @@ export const finance = {
       financeCoin: null,
       allResults: [],
       filteredResults: [],
+      stable:'off',
+      isFlex:'off'
     };
   },
   mutations: {
@@ -25,8 +27,50 @@ export const finance = {
         state.filteredResults = results;
       }
     },
+    setStable(state,filters){
+      state.stable = filters.stable
+    },
+    setIsFlex(state,filters){
+      state.isFlex = filters.isFlex
+    },
+    setFilters(state,filters){
+      state.filters = filters
+    }
   },
   actions: {
+    setCoinFilter(ctx,filters){
+      const stables = ['USDT','USDC','TUSD','HUSD','BUSD','TrueUSD']
+
+      ctx.commit('setFilters',filters)
+      ctx.commit('setIsFlex',filters)
+      ctx.commit('setStable',filters)
+
+      console.log(ctx.state.isFlex)
+      console.log(ctx.state.stable)
+      console.log(ctx.state.filters,ctx.state.filters.isFlex,ctx.state.filters.stable)
+      const flex = ctx.state.filters.stable.value
+      console.log(flex)
+      console.log(ctx.state.filters.isFlex)
+      console.log(ctx.state.filters.stable)
+      const results = ctx.state.filteredResults
+ if(ctx.state.filters.isFlex==='off' && ctx.state.filters.stable==='off'){
+  console.log('show all')
+
+}else if(ctx.state.filters.isFlex==='on' && ctx.state.filters.stable==='off'){
+  console.log("only flex")
+
+}
+      // if(filters.isFlex.value === true && filters.stable.value === true){
+      //   console.log(results.filter(res => stables.includes(res.asset) && res.lock === 0))
+      //   ctx.commit('setFilteredResults',results.filter(res => stables.includes(res.asset) && res.lock === 0))
+      // } else if (filters.isFlex._value === true && filters.stable._value === false){
+      //   console.log(results.filter(res => res.lock === 0).filter((result) =>
+      //   result.asset.includes(ctx.state.financeCoin.toUpperCase())))
+      //   ctx.commit('setFilteredResults', results.filter(res => res.lock === 0))
+
+      // } 
+
+    },
     setFinanceCoin(ctx, input) {
       ctx.commit("setFinanceCoin", input);
       if (!ctx.state.financeCoin) {
@@ -45,42 +89,41 @@ export const finance = {
       const lockedStakingData = [];
       
 
-      let nexoRes = await window.fetch("https://nexo.io/earn-crypto");
-      let nexoDecoder = new TextDecoder();
-      let nexoReader = nexoRes.body.getReader();
-      let stream = await nexoReader.read();
-      let nexoHtml = nexoDecoder.decode(stream.value);
-      console.log(nexoHtml);
-      let nexoSoup = new JSSoup(nexoHtml);
-      let nexo = nexoSoup.findAll("div", { class: "-mb-32" });
-      console.log(nexo);
-      let nexoObjs = nexo[1].contents[0].contents;
+      // let nexoRes = await window.fetch("https://nexo.io/earn-crypto");
+      // let nexoDecoder = new TextDecoder();
+      // let nexoReader = nexoRes.body.getReader();
+      // let stream = await nexoReader.read();
+      // let nexoHtml = nexoDecoder.decode(stream.value);
 
-      nexoObjs.forEach((obj) => {
-        let coinData = obj.findAll("span", { class: "value" });
-        let imgUrl = obj.findAll("img");
-        let asset = obj.contents[0].contents[1].contents[1].text;
-        console.log(asset);
-        console.log(imgUrl[0].attrs.src);
-        let key = imgUrl[0].attrs.src;
-        let assetName = asset.replace(" Interest Account", "").trim();
+      // let nexoSoup = new JSSoup(nexoHtml);
+      // let nexo = nexoSoup.findAll("div", { class: "-mb-32" });
+ 
+      // let nexoObjs = nexo[1].contents[0].contents;
 
-        let rate = parseFloat(coinData[0].contents[0]._text) / 100;
-        let url = imgUrl[0].attrs.src;
-        lockedStakingData.push({
-          key: key,
-          asset: assetName,
-          apy: rate,
-          lock: 0,
-          refer:"https://nexo.io/earn-crypto",
-          src: "nexoio",
-          icon: "lock_open",
-          source: "nexo.io",
-          lockTerm: 0,
-          type: "deposit",
-          url: url,
-        });
-      });
+      // nexoObjs.forEach((obj) => {
+      //   let coinData = obj.findAll("span", { class: "value" });
+      //   let imgUrl = obj.findAll("img");
+      //   let asset = obj.contents[0].contents[1].contents[1].text;
+
+      //   let key = imgUrl[0].attrs.src;
+      //   let assetName = asset.replace(" Interest Account", "").trim();
+
+      //   let rate = parseFloat(coinData[0].contents[0]._text) / 100;
+      //   let url = imgUrl[0].attrs.src;
+      //   lockedStakingData.push({
+      //     key: key,
+      //     asset: assetName,
+      //     apy: rate,
+      //     lock: 0,
+      //     refer:"https://nexo.io/earn-crypto",
+      //     src: "nexoio",
+      //     icon: "lock_open",
+      //     source: "nexo.io",
+      //     lockTerm: 0,
+      //     type: "deposit",
+      //     url: url,
+      //   });
+      // });
 
       const res = await window.fetch(
         "https://www.binance.com/bapi/earn/v1/friendly/pos/union"
@@ -190,7 +233,6 @@ okex.data.forEach((coin) => {
       );
       const lock = await lockRes.json();
       lock.data.forEach((result) => {
-        console.log(result);
         result.list.forEach((list) =>
           lockedStakingData.push({
             key: result.projectId,
@@ -271,16 +313,13 @@ okex.data.forEach((coin) => {
       let reader = await cryptocomRes.body.getReader().read();
       let utf8decoder = new TextDecoder();
       const cryptocomHtml = utf8decoder.decode(reader.value);
-      console.log(cryptocomHtml);
+   
       const cryptocomSoup = await new JSSoup(cryptocomHtml);
       const tabs = cryptocomSoup.findAll("div", { class: "css-11bys66" });
-      console.log(tabs);
+   
       tabs.forEach((tab) => {
         const coinData = tab.findAll("p");
         const imgUrl = tab.findAll("div", { class: "css-1aca62p" });
-        console.log(coinData);
-        console.log(imgUrl);
-        console.log(coinData[1].contents[0]);
         let key = coinData[0].contents[0]._text + coinData[1].contents[0]._text;
         let asset = coinData[0].contents[0]._text;
         let rate = parseFloat(coinData[1].contents[0]._text) / 100;
@@ -301,7 +340,7 @@ okex.data.forEach((coin) => {
         });
       });
 
-      console.log(cryptocomSoup);
+
       console.log(lockedStakingData);
       ctx.commit("setAllResults", lockedStakingData);
     },

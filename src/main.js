@@ -19,9 +19,13 @@ import VueHighcharts from 'vue3-highcharts';
 // `app`: Vue app
 
 
-
 const firebaseConfig = {
-
+  apiKey:process.env.VUE_APP_FB_API_KEY,
+  authDomain:process.env.VUE_APP_FB_API_AUTH_DOMAIN,
+  projectId:process.VUE_APP_FB_API_PROJECT_ID,
+  storageBucket:process.env.VUE_APP_FB_API_STORAGE_BUCKET,
+  messagingSenderId:process.env.VUE_APP_FB_API_MESSAGING_SENDER_ID,
+  appId:process.env.VUE_APP_FB_API_APP_ID,
 };
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(user => {

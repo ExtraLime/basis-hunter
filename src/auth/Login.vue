@@ -54,7 +54,7 @@ firebase
 }
 const google = async () => {
   await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data) => {
-    console.log('via google',data.user)
+
   store.dispatch('auth/setUserAction',data.user)
     router.push('/about')
 
@@ -79,7 +79,9 @@ const google = async () => {
 input{
   background-color:black; 
   border-radius: 2%;
-  opacity:120%;
-  color:white
+  opacity:45%;
+  color:dodgerblue;
+  text-decoration-color: dodgerblue;
+  border:2px solid white;
 }
 </style>
