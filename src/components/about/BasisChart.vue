@@ -1,15 +1,5 @@
 <template>
-  <div>
-    <ui-select
-      :v-model="coin"
-      :options="[
-        { label: 'ETH', value: 'ETH' },
-        { label: 'BTC', value: 'BTC' },
-      ]"
-      @select="$event"
-      >Choose Coin</ui-select
-    >
-  </div>
+
   <div style="height: 600px; width: 600px">
     <vue3-chart-js :key='key' width="500" height="350" v-bind="{ ...lineChart }" />
   </div>
@@ -58,20 +48,23 @@ export default {
           {
             label: "Perpetual",
             data: chartData.value.perp,
-            borderColor: "dodgerblue",
+            borderColor: "grey",
+            borderWidth:'1.2px',
             yAxisID: "y1",
    
           },
           {
             label: "Quarterly",
             data: chartData.value.qrt,
-            borderColor: "#C80815",
+            borderColor: "darkgrey",
+                       borderWidth:'1.2px',
             yAxisID: "y1",
           },
           {
             label: "Basis Rate",
             data: chartData.value.basis,
-            borderColor: "white",
+            borderColor: "dodgerblue",
+                       borderWidth:'4px',
             yAxisID: "y",
           },
         ],
@@ -94,7 +87,7 @@ export default {
                     beginAtZero:true
                 },
                                 suggestedMin:-0.1,
-                suggestedMax:.5
+                suggestedMax:.3
             },
             y1:{id:'y1',
                 type:'linear',

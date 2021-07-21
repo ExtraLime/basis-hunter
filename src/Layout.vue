@@ -14,7 +14,9 @@
 .wrapper {
   height: 100vh;
   background-color: black;
-  color:lightgrey
+  color:lightgrey;
+            overflow-x:hidden; 
+
 }
 .header{
   display:flex
@@ -22,14 +24,18 @@
 .main {
   display: flex;
   background-color: black;
-  border-radius: 3%;
+  justify-content: center;
+  width:100%
+
+  
 }
 
 .content {
   width: 100%;
   background-color: black;
   color: white;
-  display:flex;
+
   justify-content:center
+
 }
 </style>

@@ -77,7 +77,7 @@ export default {
       },
     });
     const tickData = computed(() => {
-      const data = store.state.table.messages;
+      const data = store.state.live.messages;
 
       return data;
     });

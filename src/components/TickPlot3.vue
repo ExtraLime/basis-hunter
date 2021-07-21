@@ -15,7 +15,7 @@
 
 
 <script>
-import { ref, computed, reactive } from "vue";
+import { computed, reactive } from "vue";
 import VueHighcharts from "vue3-highcharts";
 import { useStore } from "vuex";
 export default {
@@ -32,7 +32,7 @@ export default {
       });
     });
     const tickData = computed(() => {
-      const data = store.state.table.messages;
+      const data = store.state.live.messages;
 
       return data;
     });

@@ -1,5 +1,5 @@
 <template>
-  <div>Last tick: {{ lastTick }}</div>
+
   <table class="table">
     <thead>
       <slot name="columns">
@@ -41,7 +41,7 @@ export default {
     onMounted(() => {
       updateFunding;
       // store.dispatch("table/subscribe");
-      store.dispatch("table/getCoinList");
+      store.dispatch("live/getCoinList");
     });
     const store = useStore();
     const coins = [
@@ -65,8 +65,8 @@ export default {
     ];
 
     const tableRows = computed(() => {
-      const tableData = store.state.table.messages;
-      const fundingData = store.state.table.fundingData;
+      const tableData = store.state.live.messages;
+      const fundingData = store.state.live.fundingData;
       const d = coins.map((coin) => {
         let basis =
           parseFloat(tableData[`${coin}USD_210924`]) -
@@ -91,18 +91,14 @@ export default {
       return d;
     });
 
-    const lastTick = computed(() => {
-      return new Date(store.state.table.messages.timestamp);
-    });
     const updateFunding = setInterval(() => {
-      store.dispatch("table/getFundingData");
+      store.dispatch("live/getFundingData");
     }, 10000);
 
     return {
       tableRows,
       coins,
       columns,
-      lastTick,
     };
   },
 };

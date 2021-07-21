@@ -1,13 +1,13 @@
 <template>
 <div class='login-container'>
   <h3>Login to your BasisTrade Account</h3>
-  <p v-if="errMsg">{{errMsg}}</p>
-  <p><input type="email" placeholder="Email" :name='email' v-model="email" /></p>
+  <p class='errMsg' v-if="errMsg">{{errMsg}}</p>
+  <p><input @keyup.enter='signIn' type="email" placeholder="Email" :name='email' v-model="email" /></p>
   <p>
-    <input type="password" placeholder="Password" v-model="password" />
+    <input @keyup.enter='signIn' type="password" placeholder="Password" v-model="password" />
   </p>
 
-  <p><ui-button class='loginBtn' @click="signIn"> Login </ui-button></p>
+  <p><ui-button class='loginBtn' @click="signIn" > Login </ui-button></p>
    <a href="#" @click="google">
       <img src='https://symbols.getvecta.com/stencil_3/0_google.d6f70b2986.svg' width='25' />
     </a>
@@ -23,19 +23,22 @@ import { useStore } from 'vuex'
 const email = ref('')
 const password = ref('')
 const errMsg =ref(null)
-const router = useRouter() // get a reference to our vue router
+const router = useRouter() 
 const store = useStore()
-const signIn = async () => { // we also renamed this method 
+const signIn = async () => { 
+console.log(email.value)
 await
 firebase
     .auth()
-    .signInWithEmailAndPassword(email.value, password.value) // THIS LINE CHANGED
+    .signInWithEmailAndPassword(email.value, password.value) 
     .then((data) => {
       console.log('Successfully logged in!');
       store.dispatch('auth/setUserAction',{data})
-      router.push('/about') // redirect to the feed
+      .finally(
+        console.log('push to about'),router.push('/about')) // redirect to the router
     })
         .catch((error) => {
+          console.log(error)
       switch (error.code) {
         case "auth/invalid-email":
           errMsg.value = "Invalid email";
@@ -76,12 +79,9 @@ const google = async () => {
 .loginBtn{
   color:dodgerblue;
 }
-input{
-  background-color:black; 
-  border-radius: 2%;
-  opacity:45%;
-  color:dodgerblue;
-  text-decoration-color: dodgerblue;
-  border:2px solid white;
+.errMsg{
+  color:#C31808;
+  font: 1em Times;
 }
+
 </style>

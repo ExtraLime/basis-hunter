@@ -1,0 +1,75 @@
+.subpoint {
+    display: grid;
+    justify-content: center;
+    width:100%
+  }
+  
+  .sspoint {
+    color: purple;
+    margin: 0px;
+    align-self: center;
+  }
+  .mdc-collapse {
+    display: grid;
+  }
+  .mdc-collapse__header {
+    align-items: center;
+    align-self: center;
+    display: grid;
+    margin-bottom: 0;
+  }
+  .mdc_collapse.mdc-collapse--expanded {
+    display: grid;
+    justify-content: center;
+  }
+  .desc {
+    color: lightgrey;
+    border-radius: 2%;
+  }
+  .ridge{
+    display:flex;
+    justify-content:center;
+    text-align:center;
+    align-self:center
+  }
+  .mdc-collapse__header.mdc-ripple-surface.mdc-ripple-surface--secondary.mdc-ripple-upgraded{
+
+    align-self: center;
+  }
+  .prices {
+    justify-content: center;
+    margin: 0px;
+    align-self: center;
+    width: 100%;
+    display:grid
+  }
+  .mdc-collapse__header {
+    align-items: center;
+    align-self: center;
+    display: grid;
+    margin-bottom: 0;
+}
+  .prereqs {
+    display: grid;
+    width: 50rem;
+    justify-content: center;
+    text-align: center;
+    margin: 0px;
+  }
+  .point {
+    color: dodgerblue;
+    margin-bottom: 0rem;
+    justify-content: center;
+    display: grid;
+    width:100%
+  }
+  .subpoint {
+    color: hotpink;
+    margin: 0px;
+  }
+  .intro {
+  }
+  .mdc-collapse {
+    justify-content: center;
+    display: grid;
+  }

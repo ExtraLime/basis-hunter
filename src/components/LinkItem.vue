@@ -30,4 +30,22 @@ button {
 button:hover {
   filter: brightness(125%);
 }
+a {
+  color: lightgrey;
+  border: none;
+  padding: 10px;
+  margin: 0 10px 5px 0;
+  font-size: 18px;
+  transition: 0.1s;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  text-decoration: none;
+  font-family: Times;
+}
+a:hover {
+  filter: brightness(125%);
+  cursor: pointer;
+  transition: 0.1s;
+}
 </style>

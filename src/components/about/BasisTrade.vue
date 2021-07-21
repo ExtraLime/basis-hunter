@@ -1,4 +1,5 @@
 <template>
+<div class="basis-trade">
   <section class="intro">
     <h4>The "Basis" Trade</h4>
     <p class="intro-text">
@@ -8,35 +9,36 @@
       the market is $4000, I could buy the lumber now and deliver it in one
       months time. Effectively pocketing the $1000.
     </p>
-    <p class="middle-text">
+    <div class="middle-text">
       In terms of cryptocurrencies, the concept is not different. For a few
       select assets, any given time (literally), there is a quarterly contract
       and spot market for the asset. For example, here at BasisTrade, we really
-      like etherium. So at any given point during a quarter, we can sell the
-      quarterly contract for ETH at a premium to its spot price. Right Now, I
-      would sell 1 ETHUSDT_210924 at ${{ stream.qrt }} and buy 1 ETH in the spot
-      market at ${{ stream.perp }}. This means I have locked in ${{
+      like etherium. So at any given point during a quarter, one can sell the
+      quarterly contract for ETH at a premium (usually) to the spot price. Right Now, one
+      would sell 1 ETHUSD_210924 at: <span class="short">${{ stream.qrt }} </span> and buy 1 ETH in the spot
+      market at: <span class="long"> ${{ stream.perp }}</span>This means a profit of: <span :class="stream.basis<0? 'short':'long'">${{
         stream.basis
-      }}
-      in profit that will be realized on Sept 24. 2021. This provides a return
-      of {{ stream.apy }}%. (APY)
-    </p>
-    <p></p>
+      }}</span>
+      is locked in and will be realized on Sept 24. 2021. Providing an annual return of roughly: <span :class="stream.basis<0? 'short':'long'"> {{ stream.apy }}%</span>
+   
+</div> 
   </section>
   <basis-chart />
+  </div>
 </template>
 <script>
 import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
+import { computed } from "vue";
+import BasisChart from './BasisChart.vue'
 
 export default {
-  components: {
-
+  components:{
+    BasisChart
   },
   setup() {
       const store = useStore()
       const stream = computed(() => {
-      const data = store.state.table.messages;
+      const data = store.state.live.messages;
       const perp = data["ETHUSD_210924"];
       const basis = data["ETHUSD_210924"] - data["ETHUSD_PERP"];
       const apy = (basis / perp) * 400;
@@ -55,7 +57,24 @@ export default {
 };
 </script>
 <style scoped lang: scss>
-.hello {
-  color: tan;
+.middle-text{
+  display:grid
+}
+.long{
+  color:green
+}
+.short{
+  color:red
+}
+.intro{
+
+}
+.basis-trade{
+  display:flex;
+  width:75rem;
+  justify-content:center
+}
+section{
+  width:35rem
 }
 </style>

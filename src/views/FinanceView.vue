@@ -41,14 +41,14 @@ export default {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 500px;
+width:40rem;
   margin: 10px;
-  height:100vh;
 }
 .finance{
-    width:75%;
+    width:75rem;
     display:grid;
     grid-template-columns: auto auto;
+    justify-content: center;
 }
 label{
     color:dodgerblue

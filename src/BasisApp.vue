@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { computed, onMounted, watch, watchEffect } from "vue";
+import { computed, onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
 
 import { useRoute, useRouter } from "vue-router";
@@ -51,9 +51,10 @@ export default {
     })
 
     onMounted(() => {
-      store.dispatch("table/getFundingData");
+      store.dispatch("live/getFundingData");
       store.dispatch("charts/getChartsData");
-      store.dispatch("table/subscribe");
+      store.dispatch("live/subscribe");
+            store.dispatch("layout/spotSubscribe");
       store.dispatch('finance/getRatesData')
     });
 
@@ -76,6 +77,8 @@ body {
   color: dodgerblue;
   justify-content: center;
   display: flex;
+  width:100%;
+
 }
 * {
   box-sizing: border-box;

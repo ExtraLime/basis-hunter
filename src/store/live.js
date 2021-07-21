@@ -1,4 +1,4 @@
-export const table = {
+export const live = {
   namespaced: true,
 
   state() {
@@ -8,7 +8,8 @@ export const table = {
       messages: {},
       fundingData: {},
       basisLive:{},
-      fundingLive:{}
+      fundingLive:{},
+      spot:{}
     };
   },
   mutations: {
@@ -76,6 +77,7 @@ export const table = {
         console.error(e.message);
       }
     },
+   
     async getFundingData(ctx) {
       const res = await window.fetch(
         "http://dapi.binance.com/dapi/v1/premiumIndex"

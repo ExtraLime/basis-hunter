@@ -87,29 +87,32 @@ export default {
   grid-template-rows: auto auto auto auto auto;
   border: 1px solid silver;
   border-radius: 8px;
-  max-width: 15rem;
+  width: 8rem;
   cursor: pointer;
   box-shadow: 0px 1px 3px darkgrey;
   transition: 0.2s;
   color:lightgrey
 }
-.coinImg {
-  background: whitesmoke;
-  color: red;
-  border: 1px solid silver;
-}
+
 .coinTitle {
   background: lightgrey;
   color: black;
   border-top: 1px solid silver;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
+  width:100%;
+  align-items:center;
+  margin:0;
+  height:5
 }
 .coinSource {
   display: flex;
   justify-content: center;
+}
+.coinApy{
+  text-align:center;
 }
 .lock-section {
   display: flex;
@@ -120,6 +123,7 @@ export default {
 a:link {
     text-decoration: inherit;
     color: lightgrey;
+    padding:0
 
 
 }

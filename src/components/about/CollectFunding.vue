@@ -1,0 +1,3 @@
+<template>
+    Collect funding
+</template>

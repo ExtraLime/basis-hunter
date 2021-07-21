@@ -1,32 +1,52 @@
 <template>
-  <h4>Live Market Rates (binance)</h4>
+  <div class="news-container">
+    <div class="news-wrap">
+      <news-feed />
+    </div>
+  </div>
+  <div class="ticker-container">
+      <div class="ticker-wrap">
+      <spot-ticker />
+      </div></div>
+
+ <div class='top-line'> <h4>Live Market Rates (binance)</h4>  <div>Last tick: {{ lastTick }}</div></div>
+
   <div class="live">
     <tick-plot />
-    <tick-plot3 />
+
     <live-table />
   </div>
 </template>
 <script>
 import { useStore } from "vuex";
 import LiveTable from "../components/LiveTable.vue";
+import NewsFeed from "../components/NewsFeed.vue";
 import TickPlot from "../components/TickPlot.vue";
-import TickPlot3 from "../components/TickPlot3.vue";
 
+import SpotTicker from '../components/live/SpotTicker.vue'
+import { computed } from 'vue'
 export default {
   components: {
     LiveTable,
     TickPlot,
-    TickPlot3,
+
+    NewsFeed,
+    SpotTicker
+
   },
   setup() {
     const store = useStore();
-    return {};
+       const lastTick = computed(() => {
+         const tickDate = new Date(store.state.live.messages.timestamp)
+      return tickDate.toLocaleTimeString() ;
+    });
+    return {
+      lastTick
+    };
   },
 };
 </script>
-<style scoped>
-.live {
-  display: grid;
-  grid-template-columns: auto auto;
-}
+<style >
+
+@import url(./live.css);
 </style>

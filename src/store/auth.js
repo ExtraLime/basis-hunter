@@ -27,7 +27,7 @@ export const auth = {
         state.user.displayName = data.displayName ? data.displayName : null;
         state.user.lastLogin = data.metadata.lastSignInTime
           ? data.metadata.lastSignInTime
-          : null;
+          : 'none';
         state.isAuthenticated = data ? true : false;
       } else {
         state.user = {};

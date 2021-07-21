@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "dat-fin-ass"
+    "default": "dat-fin-ass",
+    "dev": "dat-fin-ass"
   }
 }

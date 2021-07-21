@@ -29,7 +29,6 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(user => {
-    console.log('from main')
   store.dispatch("auth/setUserAction", user);
   
 });

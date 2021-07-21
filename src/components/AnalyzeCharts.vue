@@ -56,8 +56,8 @@
 <!-- // </template> -->
 <script>
 import { useStore } from "vuex";
-import VueApexCharts from "vue3-apexcharts";
-import { computed, onMounted, reactive } from "vue";
+
+import { computed, reactive } from "vue";
 import LineChart from './LineChart.vue'
 export default {
  components: {

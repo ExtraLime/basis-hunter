@@ -12,21 +12,14 @@
 </template>
 
 <script>
-import { computed, ref, reactive, onMounted } from "vue";
+import { computed, ref, reactive } from "vue";
 import { useStore } from "vuex";
-import LineChart from "./LineChart.vue";
 import VueApexCharts from "vue3-apexcharts";
 
 export default {
   name: "LiveChart",
   components: {
     apexcharts: VueApexCharts,
-  },
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
   },
   setup() {
     const store = useStore();
@@ -113,7 +106,7 @@ export default {
     });
 
     const tickData = computed(() => {
-      const data = store.state.table.messages;
+      const data = store.state.live.messages;
 
       return data;
     });
