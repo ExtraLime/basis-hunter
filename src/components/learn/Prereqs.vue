@@ -3,10 +3,9 @@
     <div class="intro">
       <p>
         Welcome to BasisTrade. This site contains a plethora of reaserch and
-        market information regarding crypto currency future contracts. However,
-        it doesn't help you if dont know how to use the information. Below, some
-        some terms and concepts will be explained breifly to lay out a few
-        fundamentals, we consider imperative to know a priori.
+        market information regarding crypto currency future contracts and is not investment advice. Some
+        terms and concepts will be explained breifly to lay out a few
+        fundamentals.
       </p>
     </div>
     <ui-collapse :ripple="2">
@@ -34,7 +33,7 @@
           <template #toggle>
             <h3 class="subpoint">Current Quarter and Next Quarter Futures</h3>
           </template>
-          <h5 class="desc">
+          <p class="desc">
             A futures contract is an obligation to purchase or take delivery of
             a predetermined amount of goods or services for some predetermined
             price at some predetermined point in the future. In traditional
@@ -42,8 +41,8 @@
             hedging risk and even speculation. In the crypto space, the
             mechanics are similar. The two most popular futures contracts are
             the current quarter contract and next quarter contract. Giving one
-            up to 6 months before settlement.
-          </h5>
+            up to 6 months of hedging time before settlement.
+          </p>
           <ui-collapse :ripple="2">
             <template #toggle>
               <h5 class="sspoint">In-Kind/Coin Settlement</h5>
@@ -115,7 +114,7 @@
             <h3 class="subpoint">Backwardation</h3>
           </template>
           <h5 class="desc">
-            The market is in "Backwardation" the futures price is lower than the spot price. The 'basis' is negative, and the funding rate is also negative.
+            The market is in "Backwardation" when the futures price is lower than the spot price. The basis is negative, and the funding rate is also negative.
           </h5>
         </ui-collapse>
       </section>
@@ -123,5 +122,5 @@
   </div>
 </template>
 <style scoped >
-@import url(./about.css);
+@import url(./learn.css);
 </style>

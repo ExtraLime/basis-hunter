@@ -3,11 +3,8 @@ import BasisApp from "../BasisApp.vue";
 import LiveView from "../views/LiveView.vue";
 import AnalyzeView from "../views/AnalyzeView.vue";
 import FinanceView from "../views/FinanceView.vue";
-import AboutView from "../views/AboutView.vue";
+import LearnView from "../views/LearnView.vue";
 import HomeView from "../views/HomeView.vue";
-import firebase from "firebase/app";
-import { useStore } from "vuex";
-import { store } from "../store";
 
 const routes = [
   // { path: "/",
@@ -26,8 +23,8 @@ const routes = [
     component: BasisApp,
     children: [
       {
-        path: "/about",
-        component: AboutView,
+        path: "/learn",
+        component: LearnView,
       },
       {
         path: "/live",

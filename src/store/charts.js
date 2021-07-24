@@ -4,8 +4,10 @@ export const charts = {
   state() {
     return {
       analyzeCoin: "ETH",
+      histogramData: [],
       chartsData: {},
       basisChartData: {},
+      initChartData: { labels: [], datasets: [] },
       intervals: [
         { value: "1m", label: "1m" },
         { value: "5m", label: "5m" },
@@ -29,10 +31,10 @@ export const charts = {
       ],
     };
   },
-  getters:{
+  getters: {
     chartsData(state) {
-      return state.chartsData
-    }
+      return state.chartsData;
+    },
   },
   mutations: {
     setAnalyzeCoin(state, data) {
@@ -40,11 +42,38 @@ export const charts = {
       state.analyzeInterval = data.selectedInterval.value;
     },
     setChartsData(state, chartsData) {
-      console.log("mutation:",chartsData);
+      console.log("mutation:", chartsData);
       state.chartsData = chartsData;
     },
     setBasisChartData(state, chartData) {
       state.basisChartData = chartData;
+    },
+    setInitChartData(state, { labels, basis, coin }) {
+      state.initChartData.labels = labels;
+      const colors = {
+        ADA: "#1C1CF0",
+        BCH: "#3B7A57",
+        BNB: "#D2691E",
+        BTC: "#FFEF00",
+        DOT: "#E30022",
+        ETH: "#00CC99",
+        LINK: "#F7E7CE",
+        LTC: "#9FA91F",
+        XRP: "#0047AB",
+      };
+      state.initChartData.datasets.push({
+        label: coin,
+        name: coin,
+        data: basis,
+        borderColor: colors[coin],
+      });
+    },
+    resetInitData(state) {
+      console.log("was reset");
+      state.initChartData = { labels: [], datasets: [] };
+    },
+    setHistogramData(state, { interval, counts, bins }) {
+      state.histogramData[interval]={ interval:interval, data: {counts, bins} }
     },
   },
   actions: {
@@ -227,13 +256,18 @@ export const charts = {
               shared: true,
               y: {
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "$" + val.toFixed(2);
                 },
               },
             },
             yaxis: {
               title: {
                 text: "Price",
+              },
+              labels: {
+                formatter: function (val) {
+                  return "$" + val.toFixed(2);
+                },
               },
             },
             chart: {
@@ -297,7 +331,7 @@ export const charts = {
               shared: true,
               y: {
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "$" + val.toFixed(2);
                 },
               },
             },
@@ -307,7 +341,7 @@ export const charts = {
               },
               labels: {
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "$" + val.toFixed(2);
                 },
               },
             },
@@ -373,7 +407,7 @@ export const charts = {
               shared: true,
               y: {
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "%" + val.toFixed(3);
                 },
               },
             },
@@ -387,7 +421,7 @@ export const charts = {
                   color: "white",
                 },
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "%" + val.toFixed(5);
                 },
               },
               title: {
@@ -460,7 +494,7 @@ export const charts = {
               shared: true,
               y: {
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "%" + (val * 100).toFixed(3);
                 },
               },
             },
@@ -471,7 +505,7 @@ export const charts = {
               },
               labels: {
                 formatter: function (val) {
-                  return val.toFixed(5);
+                  return "%" + (val * 100).toFixed(3);
                 },
               },
             },
@@ -502,8 +536,6 @@ export const charts = {
         },
       };
 
-   
-
       ctx.commit("setChartsData", {
         apexCharts,
       });
@@ -517,10 +549,10 @@ export const charts = {
       );
       const perpRev = await perpRes.json();
       const qrtRev = await qrtRes.json();
-    
+
       const perp = perpRev.reverse();
       const qrt = qrtRev.reverse();
-      console.log(perp);
+  
       const basisChartData = {
         qrt: qrt.map((tick) => {
           return parseFloat(tick[4]);
@@ -528,14 +560,103 @@ export const charts = {
         perp: perp.map((tick) => {
           return parseFloat(tick[4]);
         }),
-        basis: qrt.map((tick, idx) => {
-          return parseFloat(tick[4]) - parseFloat(perp[idx][4]);
-        }).map((tick,idx) => {return tick/perp[idx][4]}),
+        basis: qrt
+          .map((tick, idx) => {
+            return parseFloat(tick[4]) - parseFloat(perp[idx][4]);
+          })
+          .map((tick, idx) => {
+            return tick / perp[idx][4];
+          }),
         timestamp: qrt.map((datum) => {
           return new Date(datum[0]).toLocaleDateString();
         }),
       };
       ctx.commit("setBasisChartData", basisChartData);
+    },
+    async initChartData(ctx) {
+      ctx.commit("resetInitData");
+      const list = ctx.state.coins;
+
+      await list.forEach(async (coin) => {
+        let i = 0;
+        console.log(i);
+        const data = { labels: [], datasets: [] };
+        const perpRes = await window.fetch(
+          `https://dapi.binance.com/dapi/v1/continuousKlines?limit=1000&pair=${coin.label.toLowerCase()}usd&interval=8h&contractType=PERPETUAL`
+        );
+        const qrtRes = await window.fetch(
+          `https://www.binance.com/dapi/v1/continuousKlines?limit=1000&pair=${coin.label.toLowerCase()}usd&interval=8h&contractType=CURRENT_QUARTER`
+        );
+
+        const perp = await perpRes.json();
+        const qrt = await qrtRes.json();
+        const basis = qrt
+          .map((tick, idx) => {
+            return parseFloat(tick[4]) - parseFloat(perp[idx][4]);
+          })
+          .map((tick, idx) => {
+            return parseFloat(tick / perp[idx][4]).toFixed(4);
+          });
+        const labels = qrt.map((datum) => {
+          return new Date(datum[0]).toLocaleDateString();
+        });
+        data.labels.push(labels);
+        data.datasets.push({ data: basis, label: coin.label });
+       
+
+        ctx.commit("setInitChartData", { labels, basis, coin: coin.label });
+        i++;
+      });
+    },
+    async getKLineHistogramData(ctx, coin) {
+      if (!coin) {
+        coin = "ETH";
+      }
+      function histogram(data, size) {
+        let min = Infinity;
+        let max = -Infinity;
+    
+        for (const item of data) {
+            if (item < min) min = item;
+            else if (item > max) max = item;
+        }
+    
+        const bins = Math.ceil((max - min + 1) / size);
+        const ticks = []
+        for(let i=min;i<max;i+=size){
+          ticks.push(i.toFixed(2))
+        }
+
+        const histogram = Array(bins).fill(0);
+    
+        for (const item of data) {
+            histogram[Math.floor((item - min) / size)]++;
+        }
+    
+        return [histogram, ticks];
+    }
+      
+      const intervals = ctx.state.intervals.map((interval) => interval.label);
+      await intervals.forEach(async (interval) => {
+        const res = await window.fetch(
+          `https://dapi.binance.com/dapi/v1/continuousKlines?limit=1000&pair=${coin.toLowerCase()}usd&interval=${interval}&contractType=PERPETUAL`
+        );
+        const data = await res.json();
+        const kLines = data.map((tick) => {
+          const moves = parseFloat(tick[4]) - parseFloat(tick[1]);
+          return moves;
+        });
+        const binSize = Math.ceil(((Math.max(...kLines)-Math.min(...kLines)))/15)
+        
+     
+      const histo = histogram(kLines,binSize)
+      
+        const timestamps = data.map((tick) => {
+          const timestamp = new Date(tick[0]);
+          return timestamp;
+        });
+        ctx.commit("setHistogramData", { interval, counts:histo[0],bins:histo[1] });
+      });
     },
   },
 };

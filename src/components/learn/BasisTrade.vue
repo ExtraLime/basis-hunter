@@ -1,7 +1,7 @@
 <template>
 <div class="basis-trade">
   <section class="intro">
-    <h4>The "Basis" Trade</h4>
+    <h4 class='point'>The Basis Trade</h4>
     <p class="intro-text">
       Basis Trading or "Cash and Carry" Abritrage is a fairly simple concept to
       grasp. Say I make a contract with the home depot to deliver them 1
@@ -23,17 +23,23 @@
    
 </div> 
   </section>
-  <basis-chart />
+
+  <all-basis />
+
   </div>
 </template>
 <script>
 import { useStore } from "vuex";
 import { computed } from "vue";
-import BasisChart from './BasisChart.vue'
+
+import AllBasis from './AllBasis.vue'
+
+
 
 export default {
   components:{
-    BasisChart
+
+    AllBasis,
   },
   setup() {
       const store = useStore()
@@ -58,7 +64,14 @@ export default {
 </script>
 <style scoped lang: scss>
 .middle-text{
-  display:grid
+  display:inline-block;
+  justify-content:center;
+  width:50rem
+
+  
+}
+.point{
+  align-self: center;
 }
 .long{
   color:green
@@ -66,15 +79,29 @@ export default {
 .short{
   color:red
 }
+.intro-text{
+width:50rem;
+display:inline-block
+}
 .intro{
-
+width:100%;
+display:grid
 }
 .basis-trade{
-  display:flex;
-  width:75rem;
+  display:grid;
   justify-content:center
 }
 section{
-  width:35rem
+display:flex;
+flex-wrap:wrap;
+  align-self: center;
+  text-align:center;
+  width:50rem;
+  justify-content:center;
+  
+}
+.basis-plot{
+  display:flex;
+  justify-content: center;
 }
 </style>

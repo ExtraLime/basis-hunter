@@ -19,7 +19,7 @@ import { computed, reactive } from "vue";
 import VueHighcharts from "vue3-highcharts";
 import { useStore } from "vuex";
 export default {
-  name: "TickPlot",
+  name: "BasisPlot",
   components: {
     VueHighcharts,
   },
@@ -31,10 +31,9 @@ export default {
         return coin.label;
       });
     });
-    const tickData = computed(() => {
-      const data = store.state.live.messages;
-
-      return data;
+     const initChartData = computed(() => {
+      console.log(store.state.charts.initChartData);
+      return store.state.charts.initChartData;
     });
     const colors = [
       "#1C1CF0",
@@ -65,7 +64,7 @@ export default {
         type:'x'
       },
       xAxis: {
-        categories: Array(50).fill(0),
+        categories: initChartData.value.labels,
       },
       credits: {
         enabled: false,
@@ -75,20 +74,13 @@ export default {
         backgroundColor: "black",
         borderColor:'white'
       },
-      series: coins.value.map((coin, idx) => {
-        return {
-          name: coin,
-          data: Array(50).fill(0),
-          borderColor: colors[idx],
-          marker:{
-            enabled:false,
-            enabledThreshold:1,
-            radius:1
-          }
-
-        };
-      }),
+      series: initChartData.value.datasets,
     });
+    setTimeout(() =>{
+        chartData.xAxis.categories = initChartData.value.labels
+        chartData.series = initChartData.value.datasets
+        console.log(chartData)
+    },2000)
     setInterval(() => {
       for (let i = 0; i < coins.value.length; i++) {
         let p = tickData.value[`${coins.value[i]}USD_PERP`];
@@ -101,17 +93,19 @@ export default {
              chartData.xAxis.categories.shift();
       chartData.xAxis.categories.push(t.toLocaleTimeString())
     }, 5000);
-    // const chartData = computed(() =>{
-    //   return {
-    //     series: [{
-    //       name: 'Test Series',
-    //       data: data.value,
-    //     }],
-    //   }
-    // });
+    const chartData = computed(() =>{
+      return {
+        series: [{
+          name: 'Test Series',
+          data: data.value,
+        }],
+      }
+    });
 
     const onRender = () => {
-      console.log("Chart rendered");
+      chartData.xAxis.categories = initChartData.value.labels
+        chartData.series = initChartData.value.datasets
+        console.log(chartData)
     };
 
     const onUpdate = () => {
@@ -123,6 +117,7 @@ export default {
     };
 
     return {
+      initChartData,
       chartData,
       onRender,
       onUpdate,

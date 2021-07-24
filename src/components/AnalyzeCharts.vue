@@ -100,4 +100,8 @@ computed(() =>{
 };
 </script>
 <style scoped>
+.mdc-select:not(.mdc-select--disabled).mdc-select--focused .mdc-floating-label{
+  color:dodgerblue
+}
+
 </style>

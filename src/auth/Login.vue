@@ -35,7 +35,7 @@ firebase
       console.log('Successfully logged in!');
       store.dispatch('auth/setUserAction',{data})
       .finally(
-        console.log('push to about'),router.push('/about')) // redirect to the router
+        console.log('push to about'),router.push('/')) // redirect to the router
     })
         .catch((error) => {
           console.log(error)
@@ -59,7 +59,7 @@ const google = async () => {
   await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data) => {
 
   store.dispatch('auth/setUserAction',data.user)
-    router.push('/about')
+    router.push('/')
 
   });
 }

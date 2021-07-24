@@ -22,7 +22,7 @@ export default {
     const store = useStore();
 
     onMounted(async () => {
-      await store.dispatch("finance/getRatesData");
+      await store.dispatch("finance/getFlaskRates");
     });
     
     onUnmounted(() => {

@@ -1,4 +1,5 @@
 import JSSoup from "jssoup";
+import axios from 'axios'
 
 export const finance = {
   namespaced: true,
@@ -124,11 +125,15 @@ export const finance = {
       //     url: url,
       //   });
       // });
-
+ const options = {
+  method: "get", 
+  mode: 'no-cors'
+ }
       const res = await window.fetch(
-        "https://www.binance.com/bapi/earn/v1/friendly/pos/union"
-      );
+       "https://www.binance.com/bapi/earn/v1/friendly/pos/union",{options});
+       console.log(res)
       const data = await res.json();
+      console.log(data)
       const loops = Math.ceil(data.total / 15);
       // paginate to get data
 
@@ -344,5 +349,12 @@ okex.data.forEach((coin) => {
       console.log(lockedStakingData);
       ctx.commit("setAllResults", lockedStakingData);
     },
+    async getFlaskRates(ctx){
+      const results = await window.fetch('http://localhost:5000/rates')
+      console.log(results)
+      const data = await results.json()
+      console.log(data)
+      ctx.commit("setAllResults", data);
+    }
   },
 };

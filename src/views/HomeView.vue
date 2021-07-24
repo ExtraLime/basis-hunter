@@ -15,7 +15,7 @@ import Login from "../auth/Login.vue";
 import Layout from "../Layout.vue";
 import { useStore } from "vuex";
 import Top from "../components/Top.vue";
-import NewsFeed from '../components/NewsFeed.vue'
+import NewsFeed from '../components/live/NewsFeed.vue'
 import SpotTicker from '../components/live/SpotTicker.vue'
 
 import { computed } from "vue";

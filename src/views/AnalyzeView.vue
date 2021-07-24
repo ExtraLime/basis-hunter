@@ -4,6 +4,9 @@
   </div>
   <div class="analyze-charts">
     <analyze-charts :dData="chartsData" />
+    <!-- <div class="histograms">
+      <histo />
+    </div> -->
   </div>
 </template>
 <script>
@@ -11,11 +14,16 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import CoinSelect from "../components/CoinSelect.vue";
 import AnalyzeCharts from "../components/AnalyzeCharts.vue";
+import Histo from '../components/analyze/Histo.vue'
+
+
 
 export default {
   components: {
     CoinSelect,
     AnalyzeCharts,
+    // Histo,
+
   },
   setup() {
     const store = useStore();
@@ -41,6 +49,10 @@ export default {
 };
 </script>
 <style scoped>
+.histograms{
+display:grid;
+grid-template-columns: auto auto auto;
+}
 .charts {
   display: grid;
   grid-template-columns: auto auto;
@@ -54,6 +66,7 @@ h3 {
 .coin-select {
   justify-content: center;
   display: flex;
+  margin:1rem
 }
 .analyze-charts {
   display: grid;

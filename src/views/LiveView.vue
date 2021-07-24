@@ -19,9 +19,9 @@
 </template>
 <script>
 import { useStore } from "vuex";
-import LiveTable from "../components/LiveTable.vue";
-import NewsFeed from "../components/NewsFeed.vue";
-import TickPlot from "../components/TickPlot.vue";
+import LiveTable from "../components/live/LiveTable.vue";
+import NewsFeed from "../components/live/NewsFeed.vue";
+import TickPlot from "../components/live/TickPlot.vue";
 
 import SpotTicker from '../components/live/SpotTicker.vue'
 import { computed } from 'vue'

@@ -79,31 +79,44 @@ export const live = {
     },
    
     async getFundingData(ctx) {
-      const res = await window.fetch(
-        "http://dapi.binance.com/dapi/v1/premiumIndex"
-      );
-      const data = await res.json();
-      const bases = [
-        "ADA",
-        "BCH",
-        "BNB",
-        "BTC",
-        "DOT",
-        "ETH",
-        "LINK",
-        "LTC",
-        "XRP",
-      ];
-      const rates = {};
-      const fundingData = bases.map((coin) =>
-        data.filter((symbol) => {
-          if (symbol.symbol === `${coin}USD_PERP`) {
-            const rate = symbol["lastFundingRate"];
-            rates[coin] = parseFloat(rate);
-            return rate;
-          }
-        })
-      );
+
+      // const res = await window.fetch(
+      //   "https://dapi.binance.com/dapi/v1/premiumIndex",{
+      //     method: "get", 
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "X-Requested-With": "XMLHttpRequest",
+      //       "Access-Control-Allow-Origin": "*"
+      //     },
+      //     mode: 'no-cors'
+      //   }
+      // );
+      // const data = await res.json();
+      // console.log(data)
+      // const bases = [
+      //   "ADA",
+      //   "BCH",
+      //   "BNB",
+      //   "BTC",
+      //   "DOT",
+      //   "ETH",
+      //   "LINK",
+      //   "LTC",
+      //   "XRP",
+      // ];
+      // const rates = {};
+      // const fundingData = bases.map((coin) =>
+      //   data.filter((symbol) => {
+      //     if (symbol.symbol === `${coin}USD_PERP`) {
+      //       const rate = symbol["lastFundingRate"];
+      //       rates[coin] = (parseFloat(rate)*100).toFixed(4);
+      //       return rate;
+      //     }
+      //   })
+      // );
+      const result = await window.fetch('http:/localhost:5000/funding')
+      const rates = await result.json()
+      console.log(rates)
       ctx.commit("updateFundingRates", rates);
     },
   },

@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import { Parse } from "../../node_modules/rss-to-json";
+import { Parse } from "rss-to-json";
 import { ref, onMounted } from "vue";
 import NewsArticle from "./NewsArticle.vue";
 export default {
@@ -14,11 +14,16 @@ export default {
   setup() {
     const articles = ref([]);
     const parsed = async () => {
-      const result = await Parse("https://cointelegraph.com/rss");
-      const data= result.items.map((article) => article);
-
-      articles.value = data;
-      return data;
+      var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+      
+      const result = await window.fetch("http://127.0.0.1:5000/newsticker");
+      const arts = await result.json()
+      console.log(arts)
+      articles.value = arts;
+      return arts;
     };
     onMounted(() => {
       parsed();

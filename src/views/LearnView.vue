@@ -24,8 +24,8 @@
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
 
-import BasisTrade from "../components/about/BasisTrade.vue";
-import Prereqs from "../components/about/Prereqs.vue"
+import BasisTrade from "../components/learn/BasisTrade.vue";
+import Prereqs from "../components/learn/Prereqs.vue"
 
 export default {
   components: {
@@ -37,6 +37,7 @@ export default {
     const store = useStore();
     onMounted(() => {
       store.dispatch("charts/setBasisChartData", "ETH");
+      store.dispatch("charts/initChartData");
     });
 
     const active = ref(0);

@@ -1,8 +1,8 @@
 
 <template>
-  <div class="example">
+  <div class="basis-plot">
     <apexcharts
-      width="500"
+      width="1000"
       height="350"
       type="line"
       :options="chartData.chartOptions"
@@ -29,11 +29,25 @@ export default {
         return coin.label;
       });
     });
-    const ethPerp = ref(1);
-    const ethQrt = ref(1);
+
+    const initChartData = computed(() => {
+      console.log(store.state.charts.initChartData);
+      return store.state.charts.initChartData;
+    });
+
     const chartData = reactive({
       chartOptions: {
-        colors: ["#1C1CF0","#3B7A57",'#D2691E','#FFEF00','#E30022','#00CC99','#F7E7CE','#9FA91F','#0047AB'],
+        colors: [
+          "#1C1CF0",
+          "#3B7A57",
+          "#D2691E",
+          "#FFEF00",
+          "#E30022",
+          "#00CC99",
+          "#F7E7CE",
+          "#9FA91F",
+          "#0047AB",
+        ],
         stroke: {
           show: true,
           curve: "smooth",
@@ -43,17 +57,17 @@ export default {
           dashArray: 0,
         },
         xaxis: {
-          categories: coins,
-          labels: {
-            show: false,
-          },
-          axisTicks: {
-            show: false,
-          },
-          axisBorder: {
-            show: false,
-          },
-        },
+              categories: initChartData.value.labels,
+              labels: {
+                show: false,
+              },
+              axisTicks: {
+                show: false,
+              },
+              axisBorder: {
+                show: false,
+              },
+            },
         tooltip: {
           style: {
             fontSize: "10px",
@@ -72,7 +86,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: "USD Amount",
+            text: "Rate",
           },
           labels: {
             formatter: function (val) {
@@ -84,45 +98,38 @@ export default {
           id: "basis",
           background: "black",
           foreColor: "white",
-          animations:{
-            enabled:false
-          }
+          animations: {
+            enabled: true,
+          },
         },
 
         markers: {
           size: 0,
         },
         title: {
-          text: "Funding Collected",
+          text: "Recent Basis Rates",
           align: "center",
         },
       },
-      series: coins.value.map((coin) => {
-        return {
-          name: coin,
-          data: Array(50).fill(0),
-        };
-      }),
+      series: coins.value.map(coin => {
+                const data=initChartData.value.datasets.filter((data) => data.name === coin)
+                return data[0]
+      }) 
+
+
+
+
+
     });
 
-    const tickData = computed(() => {
-      const data = store.state.live.messages;
+    // setInterval(() => {
+console.log(coins.value.map(coin => {
+                const data=initChartData.value.datasets.filter((data) => data.name === coin)
+                return data[0]}))
+    // }, 5000);
 
-      return data;
-    });
-    setInterval(() => {
-      for (let i = 0; i < coins.value.length; i++) {
-        let p = tickData.value[`${coins.value[i]}USD_PERP`];
-        let q = tickData.value[`${coins.value[i]}USD_210924`];
-        chartData.series[i].data.shift();
-        chartData.series[i].data.push((q - p) / p);
-      }
-    }, 5000);
-    console.log(ethPerp);
     return {
-      tickData,
-      ethPerp,
-      ethQrt,
+      initChartData,
       chartData,
     };
   },

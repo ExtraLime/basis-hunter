@@ -76,13 +76,21 @@ export default {
     align-items:center;
     max-width:50%
 }
-.menu-container div.mdc-select.mdc-select--filled.mdc-select--focused.mdc-select--activated {
+.menu-container.div.mdc-select.mdc-select--filled.mdc-select--focused.mdc-select--activated {
     color:'dodgerblue';
     float:right;
 }
 .mdc-typography--dodgerstyle{
   color: dodgerblue;
 }
-
+.mdc-select:not(.mdc-select--disabled).mdc-select--focused.mdc-floating-label{
+  color:dodgerblue
+}
+.mdc-select:not(.mdc-select--disabled).mdc-select--focused{
+  color:dodgerblue
+}
+.mdc-floating-label{
+  color: dodgerblue;
+}
 
 </style>

@@ -5,8 +5,8 @@ export const layout = {
     return {
         pages: [
                     {
-                        name: 'About',
-                        path:'/about',
+                        name: 'Learn',
+                        path:'/learn',
                         description:'Learn about basis trading and discover different ways you can earn passive income with crypto'
                     },
                     {

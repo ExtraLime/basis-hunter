@@ -5,7 +5,7 @@
     <h5>{{ props.coinData.coinName }}</h5>
 
     <h4>{{ props.coinData.lastPrice }}</h4>
-    <h6 :class="props.coinData.pctChg > 0 ? 'green':'red'" >{{ props.coinData.pctChg }}</h6>
+    <h6 :class="props.coinData.pctChg > 0 ? 'green':'red'" >%{{ props.coinData.pctChg }}</h6>
   </div>
 </template>
 <script>

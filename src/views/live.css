@@ -33,11 +33,11 @@
   /* Basically move items from right side of screen to left in infinite loop */
   display: inline-flex;
   white-space: nowrap;
-  padding-right: 0%;
+  padding-right: 50%;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-name: ticker;
-  animation-duration: 200s;
+  animation-duration: 140s;
   color:white;
   height:30px;
 }

@@ -17,6 +17,7 @@
 <script>
 import { computed, reactive } from "vue";
 import VueHighcharts from "vue3-highcharts";
+import '../../../node_modules/highcharts-histogram-bellcurve/histogram-bellcurve.js'
 import { useStore } from "vuex";
 export default {
   name: "TickPlot",
@@ -55,7 +56,7 @@ export default {
       },
       title:{
         margin:5,
-        text:"Live Basis Rates",
+        text:"Histogram",
         style:{
           color:'lightgrey'
         }
@@ -75,32 +76,27 @@ export default {
         backgroundColor: "black",
         borderColor:'white'
       },
-      series: coins.value.map((coin, idx) => {
-        return {
-          name: coin,
-          data: Array(50).fill(0),
-          borderColor: colors[idx],
-          marker:{
-            enabled:false,
-            enabledThreshold:1,
-            radius:1
-          }
+     series: [
+    //    {
+    //     name: 'Histogram',
+    //     type: 'histogram',
+    //     xAxis: 1,
+    //     yAxis: 1,
+    //     baseSeries: 's1',
+    //     zIndex: -1
+    // },
+     {
+        name: 'Data',
+        type: 'scatter',
+        data: computed(()=>store.state.charts.histogramData.kLines),
+        id: 's1',
+        marker: {
+            radius: 1.5
+        }
+    }],
+      })
+ 
 
-        };
-      }),
-    });
-    setInterval(() => {
-      for (let i = 0; i < coins.value.length; i++) {
-        let p = tickData.value[`${coins.value[i]}USD_PERP`];
-        let q = tickData.value[`${coins.value[i]}USD_210924`];
-
-        chartData.series[i].data.shift();
-        chartData.series[i].data.push(parseFloat((q - p) / p));
-      }
-             let t = new Date(tickData.value.timestamp)
-             chartData.xAxis.categories.shift();
-      chartData.xAxis.categories.push(t.toLocaleTimeString())
-    }, 5000);
     // const chartData = computed(() =>{
     //   return {
     //     series: [{

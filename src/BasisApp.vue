@@ -54,8 +54,14 @@ export default {
       store.dispatch("live/getFundingData");
       store.dispatch("charts/getChartsData");
       store.dispatch("live/subscribe");
-            store.dispatch("layout/spotSubscribe");
-      store.dispatch('finance/getRatesData')
+      store.dispatch("layout/spotSubscribe");
+      // store.dispatch('finance/getRatesData');
+      store.dispatch('charts/initChartData');
+      store.dispatch('charts/getKLineHistogramData', 'ETH');
+      store.dispatch('finance/getFlaskRates');
+
+
+
     });
 
     return {
@@ -80,7 +86,5 @@ body {
   width:100%;
 
 }
-* {
-  box-sizing: border-box;
-}
+
 </style>

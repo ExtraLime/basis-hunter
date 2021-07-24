@@ -3,7 +3,7 @@
   <a :href="article.link" target="_blank"
     ><h5 class="a.title">{{ props.article.title }}</h5></a
   >
-  <h6 class="a.description">{{ new Date(props.article.published) }}</h6></div>
+  <h6 class="a.description"> {{ props.article.timestamp }}</h6></div>
 </template>
 <script>
 export default {
