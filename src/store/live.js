@@ -114,7 +114,8 @@ export const live = {
       //     }
       //   })
       // );
-      const result = await window.fetch('http:/localhost:5000/funding')
+      const result = await window.fetch('http://localhost:5000/funding')
+      console.log(result)
       const rates = await result.json()
       console.log(rates)
       ctx.commit("updateFundingRates", rates);

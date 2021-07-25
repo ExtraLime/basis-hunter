@@ -344,11 +344,22 @@ def get_funding_data():
         if re['symbol'] in bases:
             print(re)
             print(rates)
-            rates[re['symbol']] = round(float(re['lastFundingRate']),4)
+            rates[re['symbol'].replace('USD_PERP', '')] = float(re['lastFundingRate'])
         else:
             pass
+        print(rates)
+    try:
+        return jsonify(rates)
+    except Exception as e:
+        print(e)
+        return [rates]
 
-    return jsonify(rates)
+@app.route('/fundingHistory')
+
+def get_historical_funding():
+     data = pd.read_csv('src/assets/funding_history7-25-21.csv')
+     data = data.to_json()
+     return jsonify(data)    
         
 
 if __name__ == '__main__':
