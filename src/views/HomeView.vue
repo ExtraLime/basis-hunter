@@ -2,11 +2,12 @@
   <layout>
     <template v-slot:top>
       <top />
+            <news-feed />
       <spot-ticker />
     </template>
     <template v-slot:content>
       <login />
-      <news-feed />
+
     </template>
   </layout>
 </template>
@@ -14,9 +15,9 @@
 import Login from "../auth/Login.vue";
 import Layout from "../Layout.vue";
 import { useStore } from "vuex";
-import Top from "../components/Top.vue";
-import NewsFeed from '../components/live/NewsFeed.vue'
-import SpotTicker from '../components/live/SpotTicker.vue'
+import Top from "../components/global/Top.vue";
+import NewsFeed from "../components/live/NewsFeed.vue";
+import SpotTicker from "../components/live/SpotTicker.vue";
 
 import { computed } from "vue";
 export default {
@@ -25,7 +26,7 @@ export default {
     Layout,
     Top,
     NewsFeed,
-    SpotTicker
+    SpotTicker,
   },
   setup() {
     const store = useStore();

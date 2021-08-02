@@ -12,18 +12,15 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import CoinSelect from "../components/CoinSelect.vue";
-import AnalyzeCharts from "../components/AnalyzeCharts.vue";
-import Histo from '../components/analyze/Histo.vue'
-
-
+import CoinSelect from "../components/analyze/CoinSelect.vue";
+import AnalyzeCharts from "../components/analyze/AnalyzeCharts.vue";
+import Histo from "../components/analyze/Histo.vue";
 
 export default {
   components: {
     CoinSelect,
     AnalyzeCharts,
     // Histo,
-
   },
   setup() {
     const store = useStore();
@@ -38,8 +35,6 @@ export default {
       return store.state.charts.analyzeInterval;
     });
 
-    console.log(analyzeCoin, analyzeInterval);
-
     return {
       analyzeCoin,
       analyzeInterval,
@@ -49,9 +44,9 @@ export default {
 };
 </script>
 <style scoped>
-.histograms{
-display:grid;
-grid-template-columns: auto auto auto;
+.histograms {
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 .charts {
   display: grid;
@@ -66,7 +61,7 @@ h3 {
 .coin-select {
   justify-content: center;
   display: flex;
-  margin:1rem
+  margin: 1rem;
 }
 .analyze-charts {
   display: grid;

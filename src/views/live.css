@@ -1,33 +1,32 @@
 .live {
-    width:100%;
-    display:flex;
-    grid-template-columns: auto auto;
-    justify-content:center;
-    }
-    .top-line{
-        display:inline-flex;
-        width:100%;
-        justify-content:center;
-        align-items:center
-    }
-    .news-container{
-      display:inline-flex;
-        width:120rem;
-      overflow:hidden; 
-      height: 30px;
- 
-    }
-    .ticker-container{
-      display:inline-flex;
-      width:120rem;
-      overflow:hidden; 
-      height: 30px;
-    }
-.ticker-wrap{
+  width: 100%;
+  display: flex;
+  grid-template-columns: auto auto;
+  justify-content: center;
+}
+.top-line {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.news-container {
+  display: inline-flex;
+  width: 120rem;
+  overflow: hidden;
+  height: 30px;
+}
+.ticker-container {
+  display: inline-flex;
+  width: 120rem;
+  overflow: hidden;
+  height: 30px;
+}
+.ticker-wrap {
   width: 100%;
   padding-left: 90%;
-  height:40px;
-  background-color:tan
+  height: 40px;
+  background-color: tan;
 }
 .ticker-move {
   /* Basically move items from right side of screen to left in infinite loop */
@@ -37,49 +36,59 @@
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-name: ticker;
-  animation-duration: 140s;
-  color:white;
-  height:30px;
+  animation-duration: 240s;
+  color: white;
+  height: 30px;
 }
-.ticker-move:hover{
+.ticker-move:hover {
   animation-play-state: paused; /* Pause scroll on mouse hover */
 }
 @keyframes ticker {
-  0% { transform: translate3d(100, 0, 0); }
-  100% { transform: translate3d(-100%, 0, 0); }
+  0% {
+    transform: translate3d(100, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
 }
-    .news-wrap {
-      width: 100%;
-      padding-left: 50%; /* Push contents to right side of screen */
-      background-color:white;
-      color:white
-    }
+.news-wrap {
+  width: 100%;
+  padding-left: 50%; /* Push contents to right side of screen */
+  background-color: white;
+  color: white;
+}
 
-    .news-move {
-      /* Basically move items from right side of screen to left in infinite loop */
-      display: inline-block;
-      white-space: nowrap;
-      padding-right: 100%;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      animation-name: news;
-      animation-duration: 700s;
-      color:white;
-      height:20px;
-    }
-    
-    .news-move:hover{
-      animation-play-state: paused; /* Pause scroll on mouse hover */
-    }
-    @keyframes news {
-      0% { transform: translate3d(100, 0, 0); }
-      100% { transform: translate3d(-100%, 0, 0); }
-    }
+.news-move {
+  /* Basically move items from right side of screen to left in infinite loop */
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 100%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: news;
+  animation-duration: 700s;
+  color: white;
+  height: 20px;
+}
 
-    .news-article{
-      display: inline-flex; /* Lay items in a horizontal line */
-      padding: 0 2rem;
-      height:20px;
-      align-items:center ;
-    }
-    
+.news-move:hover {
+  animation-play-state: paused; /* Pause scroll on mouse hover */
+}
+@keyframes news {
+  0% {
+    transform: translate3d(100, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.news-article {
+  display: inline-flex; /* Lay items in a horizontal line */
+  padding: 0 2rem;
+  height: 20px;
+  align-items: center;
+}
+.lastTick{
+  margin-right:4
+}

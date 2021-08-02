@@ -1,8 +1,8 @@
 <template>
   <div class="coin">
-    <a :href="props.coin.refer" target='_blank' >
+    <a :href="props.coin.refer" target="_blank">
       <div class="coinTitle">
-        <h4>{{ props.coin.asset }}</h4>
+        <h3>{{ props.coin.asset }}</h3>
         <img :src="`${props.coin.url}`" width="30" height="30" alt="No Img" />
       </div>
       <div class="coinApy">
@@ -12,12 +12,16 @@
         <p>{{ props.coin.source }}</p>
       </div>
       <div class="lock-section">
-        <ui-icon style="dodgerblue" :size="24">{{ props.coin.icon }}</ui-icon>
+        <img
+          :src="props.coin.icon === 'lock' ? lock : lockopen"
+          :alt="props.coin.icon"
+          width="20"
+        />
       </div>
       <div class="isFlex?" :style="{}">
         <p v-if="props.coin.lock === 1">
           <span :class="`is${props.coin.lockTerm}`">
-            {{ props.coin.lockTerm }}</span
+            {{ props.coin.lockTerm }} Days</span
           >
         </p>
         <p v-else class="isFlex">FLEX</p>
@@ -26,6 +30,9 @@
   </div>
 </template>
 <script>
+import lock from "../../assets/lock.svg";
+import lockopen from "../../assets/lock-open.svg";
+
 export default {
   props: {
     coin: {
@@ -33,8 +40,7 @@ export default {
     },
   },
   setup(props) {
-
-    return { props };
+    return { props, lock, lockopen };
   },
 };
 </script>
@@ -70,6 +76,11 @@ export default {
   display: flex;
   justify-content: center;
 }
+.is14 {
+  color: yellowgreen;
+  display: flex;
+  justify-content: center;
+}
 .is7 {
   color: greenyellow;
   display: flex;
@@ -91,46 +102,55 @@ export default {
   cursor: pointer;
   box-shadow: 0px 1px 3px darkgrey;
   transition: 0.2s;
-  color:lightgrey
+  color: lightgrey;
 }
-
+h4 {
+  font-weight: bold;
+}
 .coinTitle {
-  background: lightgrey;
+  background: #ff1493;
   color: black;
   border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  text-align: center;
+
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   display: inline-flex;
-  justify-content: space-between;
-  width:100%;
-  align-items:center;
-  margin:0;
-  height:5
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+  margin: 0;
+  height: 5;
 }
 .coinSource {
   display: flex;
   justify-content: center;
+  text-align: center;
+  padding-top: 1rem;
 }
-.coinApy{
-  text-align:center;
+.coinApy {
+  text-align: center;
+  border-bottom: 1px solid silver;
 }
 .lock-section {
   display: flex;
   justify-content: center;
   align-content: center;
   text-align: center;
+  border-top: 1px solid silver;
+  padding-top: 1rem;
 }
 a:link {
-    text-decoration: inherit;
-    color: lightgrey;
-    padding:0
-
-
+  text-decoration: inherit;
+  color: lightgrey;
+  padding: 0;
 }
-
+p {
+  margin-top: 0px;
+}
 a:visited {
-    text-decoration: inherit;
-        color: lightgrey;
-
+  text-decoration: inherit;
+  color: lightgrey;
 }
 </style>

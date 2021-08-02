@@ -1,4 +1,3 @@
-import firebase from "firebase";
 export const auth = {
   namespaced: true,
 
@@ -27,7 +26,7 @@ export const auth = {
         state.user.displayName = data.displayName ? data.displayName : null;
         state.user.lastLogin = data.metadata.lastSignInTime
           ? data.metadata.lastSignInTime
-          : 'none';
+          : "none";
         state.isAuthenticated = data ? true : false;
       } else {
         state.user = {};
@@ -35,7 +34,7 @@ export const auth = {
       }
     },
     logoutUser(state) {
-      state.user = null;
+      state.user = {};
       state.isAuthenticated = false;
     },
   },
@@ -45,11 +44,6 @@ export const auth = {
     },
     logoutAction(ctx) {
       ctx.commit("logoutUser");
-    },
-    async getUserAction(ctx) {
-      await firebase.auth().currentUser((user) => {
-        console.log(user.displayName);
-      });
     },
   },
 };

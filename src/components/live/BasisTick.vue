@@ -2,7 +2,7 @@
 <template>
   <div class="tick-plot">
     <apexcharts
-      width="500"
+      width="350"
       height="350"
       type="line"
       :options="chartData.chartOptions"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { computed, ref, reactive } from "vue";
+import { computed, reactive } from "vue";
 import { useStore } from "vuex";
 import VueApexCharts from "vue3-apexcharts";
 
@@ -29,11 +29,20 @@ export default {
         return coin.label;
       });
     });
-    const ethPerp = ref(1);
-    const ethQrt = ref(1);
+
     const chartData = reactive({
       chartOptions: {
-        colors: ["#1C1CF0","#3B7A57",'#D2691E','#FFEF00','#E30022','#00CC99','#F7E7CE','#9FA91F','#0047AB'],
+        colors: [
+          "#1C1CF0",
+          "#3B7A57",
+          "#D2691E",
+          "#FFEF00",
+          "#E30022",
+          "#00CC99",
+          "#F7E7CE",
+          "#9FA91F",
+          "#0047AB",
+        ],
         stroke: {
           show: true,
           curve: "smooth",
@@ -43,7 +52,7 @@ export default {
           dashArray: 0,
         },
         xaxis: {
-          categories: Array(50).fill(0),
+          categories: Array(30).fill(0),
           labels: {
             show: false,
           },
@@ -66,17 +75,17 @@ export default {
           shared: true,
           y: {
             formatter: function (val) {
-              return val.toFixed(5);
+              return "%" + val.toFixed(5);
             },
           },
         },
         yaxis: {
           title: {
-            text: "USD Amount",
+            text: "Rate",
           },
           labels: {
             formatter: function (val) {
-              return val.toFixed(5);
+              return "%" + val.toFixed(3);
             },
           },
         },
@@ -84,23 +93,23 @@ export default {
           id: "basis",
           background: "black",
           foreColor: "white",
-          animations:{
-            enabled:false
-          }
+          animations: {
+            enabled: false,
+          },
         },
 
         markers: {
           size: 0,
         },
         title: {
-          text: "Funding Collected",
-          align: "center",
+          text: "Live Basis Rates",
+          align: "left",
         },
       },
       series: coins.value.map((coin) => {
         return {
           name: coin,
-          data: Array(50).fill(0),
+          data: Array(30).fill(0),
         };
       }),
     });
@@ -111,21 +120,35 @@ export default {
       return data;
     });
     setInterval(() => {
+      // let yMax = Math.max(
+      //   ...chartData.series.map((coin) => {
+      //     return Math.max(...coin.data);
+      //   })
+      // );
+  
+      // let yMin = Math.min(
+      //   ...chartData.series.map((coin) => {
+      //     return Math.min(...coin.data);
+      //   })
+      // );
+  
       for (let i = 0; i < coins.value.length; i++) {
         let p = tickData.value[`${coins.value[i]}USD_PERP`];
         let q = tickData.value[`${coins.value[i]}USD_210924`];
         chartData.series[i].data.shift();
+  
+
         chartData.series[i].data.push((q - p) / p);
       }
-        let t = new Date(tickData.value.timestamp)
-        chartData.chartOptions.xaxis.categories.shift();
-      chartData.chartOptions.xaxis.categories.push(t.toLocaleTimeString())
-    }, 1000);
-    console.log(ethPerp);
+      let t = new Date(tickData.value.timestamp);
+      chartData.chartOptions.xaxis.categories.shift();
+      chartData.chartOptions.xaxis.categories.push(t.toLocaleTimeString());
+      // chartData.chartOptions.yaxis.max = yMax;
+      // chartData.chartOptions.yaxis.min = yMin;
+    }, 2000);
+
     return {
       tickData,
-      ethPerp,
-      ethQrt,
       chartData,
     };
   },

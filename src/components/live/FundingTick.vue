@@ -1,8 +1,8 @@
 
 <template>
-  <div class="basis-plot">
+  <div class="tick-plot">
     <apexcharts
-      width="1000"
+      width="350"
       height="350"
       type="line"
       :options="chartData.chartOptions"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { computed, reactive } from "vue";
+import { computed, ref, reactive } from "vue";
 import { useStore } from "vuex";
 import VueApexCharts from "vue3-apexcharts";
 
@@ -28,10 +28,6 @@ export default {
       return coinList.map((coin) => {
         return coin.label;
       });
-    });
-
-    const initChartData = computed(() => {
-      return store.state.charts.initChartData;
     });
 
     const chartData = reactive({
@@ -56,7 +52,7 @@ export default {
           dashArray: 0,
         },
         xaxis: {
-          categories: initChartData.value.labels,
+          categories: Array(30).fill(0),
           labels: {
             show: false,
           },
@@ -79,7 +75,7 @@ export default {
           shared: true,
           y: {
             formatter: function (val) {
-              return val.toFixed(5);
+              return '%'+ val.toFixed(3);
             },
           },
         },
@@ -89,10 +85,9 @@ export default {
           },
           labels: {
             formatter: function (val) {
-              return val.toFixed(5);
+              return '%'+val.toFixed(3);
             },
           },
-          max: 0.11,
         },
         chart: {
           id: "basis",
@@ -107,24 +102,47 @@ export default {
           size: 0,
         },
         title: {
-          text: "Recent Basis Rates",
-          align: "center",
+          text: "Funding Rates",
+          align: "left",
         },
       },
       series: coins.value.map((coin) => {
-        const data = initChartData.value.datasets.filter(
-          (data) => data.name === coin
-        );
-        return data[0];
+        return {
+          name: coin,
+          data: Array(25).fill(0),
+        };
       }),
     });
 
-    // setInterval(() => {
+    const tickData = computed(() => {
+      const data = store.state.live.fundingData;
 
-    // }, 5000);
+      return data;
+    });
+    setInterval(() => {
+      //  let yMax = Math.max(...chartData.series.map(coin =>{
+      //   return Math.max(...coin.data)
+      // }))
+
+      // let yMin = Math.min(...chartData.series.map(coin =>{
+      //   return Math.min(...coin.data)
+      // }))
+      for (let i = 0; i < coins.value.length; i++) {
+        let p = tickData.value[coins.value[i]];
+        chartData.series[i].data.shift();
+        chartData.series[i].data.push(p * 100);
+      }
+      let t = new Date();
+      chartData.chartOptions.xaxis.categories.shift();
+      chartData.chartOptions.xaxis.categories.push(t.toLocaleTimeString());
+        //       chartData.chartOptions.yaxis.max = yMax
+        // chartData.chartOptions.yaxis.min = yMin
+      
+    }, 5000);
 
     return {
-      initChartData,
+      tickData,
+
       chartData,
     };
   },

@@ -17,7 +17,7 @@ export const charts = {
         { value: "4h", label: "4h" },
         { value: "8h", label: "8h" },
       ],
-      analyzeInterval: "1h",
+      analyzeInterval: "4h",
       coins: [
         { label: "ADA", value: "ADA" },
         { label: "BCH", value: "BCH" },
@@ -42,7 +42,6 @@ export const charts = {
       state.analyzeInterval = data.selectedInterval.value;
     },
     setChartsData(state, chartsData) {
-      console.log("mutation:", chartsData);
       state.chartsData = chartsData;
     },
     setBasisChartData(state, chartData) {
@@ -69,16 +68,17 @@ export const charts = {
       });
     },
     resetInitData(state) {
-      console.log("was reset");
       state.initChartData = { labels: [], datasets: [] };
     },
     setHistogramData(state, { interval, counts, bins }) {
-      state.histogramData[interval]={ interval:interval, data: {counts, bins} }
+      state.histogramData[interval] = {
+        interval: interval,
+        data: { counts, bins },
+      };
     },
   },
   actions: {
     async changeCoin(ctx, { selectedCoin, selectedInterval }) {
-      console.log(selectedCoin);
       ctx.commit("setAnalyzeCoin", { selectedCoin, selectedInterval });
     },
     async getChartsData(ctx) {
@@ -161,6 +161,7 @@ export const charts = {
 
       // generate arrays with funding data to match price arrays for specified time interval
       // iterate over the timestamps from dateRange dividing by 1000 to scrap milliseconds
+
       for (let i = 0; i < dateRange.length; i++) {
         let date = parseInt(dateRange[i] / 1000);
         let cRate = 0;
@@ -178,6 +179,7 @@ export const charts = {
           coinFundObj.filled.push(cRate);
           usdtFundObj.filled.push(uRate);
         }
+
         // return rate*price for each timestamp
         let cCollected =
           parseFloat(perpPrice[i]) * parseFloat(coinFundObj.funding[i]);
@@ -220,7 +222,7 @@ export const charts = {
         // basis chart
         basis: {
           chartOptions: {
-            colors: ["dodgerblue", "lightgrey", "white"],
+            colors: ["lightgrey", "dodgerblue"],
             dataLabels: {
               color: "white",
             },
@@ -247,7 +249,6 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor: "pink",
               },
               theme: "dark",
               chart: {
@@ -274,31 +275,34 @@ export const charts = {
               id: "basis",
               background: "black",
               foreColor: "white",
+              animations: {
+                enabled: true,
+              },
             },
 
             markers: {
               size: 0,
             },
             title: {
-              text: "Price Movement",
+              text: coin + " Price Movement",
               align: "center",
             },
           },
           series: [
             {
-              name: "Perptual",
-              data: perpPrice,
-            },
-            {
               name: "Quarterly",
               data: qrtPrice,
+            },
+            {
+              name: "Perptual",
+              data: perpPrice,
             },
           ],
         },
         // funding collected
         funding: {
           chartOptions: {
-            colors: ["dodgerblue", "lightgrey", "white"],
+            colors: ["lightgrey", "dodgerblue"],
             stroke: {
               show: true,
               curve: "smooth",
@@ -331,7 +335,7 @@ export const charts = {
               shared: true,
               y: {
                 formatter: function (val) {
-                  return "$" + val.toFixed(2);
+                  return "$" + val.toFixed(3);
                 },
               },
             },
@@ -341,7 +345,7 @@ export const charts = {
               },
               labels: {
                 formatter: function (val) {
-                  return "$" + val.toFixed(2);
+                  return "$" + val.toFixed(3);
                 },
               },
             },
@@ -349,6 +353,9 @@ export const charts = {
               id: "basis",
               background: "black",
               foreColor: "white",
+              animations: {
+                enabled: true,
+              },
             },
 
             markers: {
@@ -361,7 +368,7 @@ export const charts = {
           },
           series: [
             {
-              name: "Eth Collected (USD)",
+              name: coin + " Collected (USD value)",
               data: coinFundObj.cumsum,
             },
             {
@@ -373,7 +380,7 @@ export const charts = {
         //bvf chart
         bvf: {
           chartOptions: {
-            colors: ["dodgerblue", "lightgrey", "white"],
+            colors: ["lightgrey", "dodgerblue", "#FF1493"],
 
             stroke: {
               show: true,
@@ -398,7 +405,6 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor: "pink",
               },
               theme: "dark",
               chart: {
@@ -407,7 +413,7 @@ export const charts = {
               shared: true,
               y: {
                 formatter: function (val) {
-                  return "%" + val.toFixed(3);
+                  return "%" + val.toFixed(4);
                 },
               },
             },
@@ -421,7 +427,7 @@ export const charts = {
                   color: "white",
                 },
                 formatter: function (val) {
-                  return "%" + val.toFixed(5);
+                  return "%" + val.toFixed(4);
                 },
               },
               title: {
@@ -432,6 +438,9 @@ export const charts = {
               id: "basis",
               background: "black",
               foreColor: "white",
+              animations: {
+                enabled: true,
+              },
             },
 
             markers: {
@@ -444,11 +453,11 @@ export const charts = {
           },
           series: [
             {
-              name: "Eth Collected (USD as Basis)",
+              name: coin + " Collected (USD as Basis)",
               data: coinFundObj.asBasis,
             },
             {
-              name: "USDT Collected as Basis",
+              name: "USDT Collected (USD as Basis)",
               data: usdtFundObj.asBasis,
             },
             {
@@ -460,7 +469,7 @@ export const charts = {
         //funding rate chart
         fRates: {
           chartOptions: {
-            colors: ["dodgerblue", "lightgrey", "white"],
+            colors: ["lightgrey", "dodgerblue"],
 
             stroke: {
               show: true,
@@ -485,7 +494,6 @@ export const charts = {
             tooltip: {
               style: {
                 fontSize: "10px",
-                backgroundColor: "pink",
               },
               theme: "dark",
               chart: {
@@ -513,6 +521,9 @@ export const charts = {
               id: "basis",
               background: "black",
               foreColor: "white",
+              animations: {
+                enabled: true,
+              },
             },
 
             markers: {
@@ -540,46 +551,44 @@ export const charts = {
         apexCharts,
       });
     },
-    async setBasisChartData(ctx, coin) {
-      const qrtRes = await window.fetch(
-        `https://www.okex.com/api/futures/v3/instruments/${coin}-USD-210924/history/candles?granularity=86400`
-      );
-      const perpRes = await window.fetch(
-        `https://www.okex.com/api/swap/v3/instruments/${coin}-USD-SWAP/history/candles?granularity=86400`
-      );
-      const perpRev = await perpRes.json();
-      const qrtRev = await qrtRes.json();
+    // async setBasisChartData(ctx, coin) {
+    //   const qrtRes = await window.fetch(
+    //     `https://www.okex.com/api/futures/v3/instruments/${coin}-USD-210924/history/candles?granularity=86400`
+    //   );
+    //   const perpRes = await window.fetch(
+    //     `https://www.okex.com/api/swap/v3/instruments/${coin}-USD-SWAP/history/candles?granularity=86400`
+    //   );
+    //   const perpRev = await perpRes.json();
+    //   const qrtRev = await qrtRes.json();
 
-      const perp = perpRev.reverse();
-      const qrt = qrtRev.reverse();
-  
-      const basisChartData = {
-        qrt: qrt.map((tick) => {
-          return parseFloat(tick[4]);
-        }),
-        perp: perp.map((tick) => {
-          return parseFloat(tick[4]);
-        }),
-        basis: qrt
-          .map((tick, idx) => {
-            return parseFloat(tick[4]) - parseFloat(perp[idx][4]);
-          })
-          .map((tick, idx) => {
-            return tick / perp[idx][4];
-          }),
-        timestamp: qrt.map((datum) => {
-          return new Date(datum[0]).toLocaleDateString();
-        }),
-      };
-      ctx.commit("setBasisChartData", basisChartData);
-    },
+    //   const perp = perpRev.reverse();
+    //   const qrt = qrtRev.reverse();
+
+    //   const basisChartData = {
+    //     qrt: qrt.map((tick) => {
+    //       return parseFloat(tick[4]);
+    //     }),
+    //     perp: perp.map((tick) => {
+    //       return parseFloat(tick[4]);
+    //     }),
+    //     basis: qrt
+    //       .map((tick, idx) => {
+    //         return parseFloat(tick[4]) - parseFloat(perp[idx][4]);
+    //       })
+    //       .map((tick, idx) => {
+    //         return tick / perp[idx][4];
+    //       }),
+    //     timestamp: qrt.map((datum) => {
+    //       return new Date(datum[0]).toLocaleDateString();
+    //     }),
+    //   };
+    //   ctx.commit("setBasisChartData", basisChartData);
+    // },
     async initChartData(ctx) {
       ctx.commit("resetInitData");
       const list = ctx.state.coins;
 
       await list.forEach(async (coin) => {
-        let i = 0;
-        console.log(i);
         const data = { labels: [], datasets: [] };
         const perpRes = await window.fetch(
           `https://dapi.binance.com/dapi/v1/continuousKlines?limit=1000&pair=${coin.label.toLowerCase()}usd&interval=8h&contractType=PERPETUAL`
@@ -602,10 +611,8 @@ export const charts = {
         });
         data.labels.push(labels);
         data.datasets.push({ data: basis, label: coin.label });
-       
 
         ctx.commit("setInitChartData", { labels, basis, coin: coin.label });
-        i++;
       });
     },
     async getKLineHistogramData(ctx, coin) {
@@ -615,27 +622,27 @@ export const charts = {
       function histogram(data, size) {
         let min = Infinity;
         let max = -Infinity;
-    
+
         for (const item of data) {
-            if (item < min) min = item;
-            else if (item > max) max = item;
+          if (item < min) min = item;
+          else if (item > max) max = item;
         }
-    
+
         const bins = Math.ceil((max - min + 1) / size);
-        const ticks = []
-        for(let i=min;i<max;i+=size){
-          ticks.push(i.toFixed(2))
+        const ticks = [];
+        for (let i = min; i < max; i += size) {
+          ticks.push(i.toFixed(2));
         }
 
         const histogram = Array(bins).fill(0);
-    
+
         for (const item of data) {
-            histogram[Math.floor((item - min) / size)]++;
+          histogram[Math.floor((item - min) / size)]++;
         }
-    
+
         return [histogram, ticks];
-    }
-      
+      }
+
       const intervals = ctx.state.intervals.map((interval) => interval.label);
       await intervals.forEach(async (interval) => {
         const res = await window.fetch(
@@ -646,16 +653,21 @@ export const charts = {
           const moves = parseFloat(tick[4]) - parseFloat(tick[1]);
           return moves;
         });
-        const binSize = Math.ceil(((Math.max(...kLines)-Math.min(...kLines)))/15)
-        
-     
-      const histo = histogram(kLines,binSize)
-      
+        const binSize = Math.ceil(
+          (Math.max(...kLines) - Math.min(...kLines)) / 15
+        );
+
+        const histo = histogram(kLines, binSize);
+
         const timestamps = data.map((tick) => {
           const timestamp = new Date(tick[0]);
           return timestamp;
         });
-        ctx.commit("setHistogramData", { interval, counts:histo[0],bins:histo[1] });
+        ctx.commit("setHistogramData", {
+          interval,
+          counts: histo[0],
+          bins: histo[1],
+        });
       });
     },
   },

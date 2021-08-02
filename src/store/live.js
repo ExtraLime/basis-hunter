@@ -7,9 +7,9 @@ export const live = {
       query: "",
       messages: {},
       fundingData: {},
-      basisLive:{},
-      fundingLive:{},
-      spot:{}
+      basisLive: {},
+      fundingLive: {},
+      spot: {},
     };
   },
   mutations: {
@@ -77,47 +77,12 @@ export const live = {
         console.error(e.message);
       }
     },
-   
-    async getFundingData(ctx) {
 
-      // const res = await window.fetch(
-      //   "https://dapi.binance.com/dapi/v1/premiumIndex",{
-      //     method: "get", 
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "X-Requested-With": "XMLHttpRequest",
-      //       "Access-Control-Allow-Origin": "*"
-      //     },
-      //     mode: 'no-cors'
-      //   }
-      // );
-      // const data = await res.json();
-      // console.log(data)
-      // const bases = [
-      //   "ADA",
-      //   "BCH",
-      //   "BNB",
-      //   "BTC",
-      //   "DOT",
-      //   "ETH",
-      //   "LINK",
-      //   "LTC",
-      //   "XRP",
-      // ];
-      // const rates = {};
-      // const fundingData = bases.map((coin) =>
-      //   data.filter((symbol) => {
-      //     if (symbol.symbol === `${coin}USD_PERP`) {
-      //       const rate = symbol["lastFundingRate"];
-      //       rates[coin] = (parseFloat(rate)*100).toFixed(4);
-      //       return rate;
-      //     }
-      //   })
-      // );
-      const result = await window.fetch('http://localhost:5000/funding')
-      console.log(result)
-      const rates = await result.json()
-      console.log(rates)
+    async getFundingData(ctx) {
+      const result = await window.fetch(process.env.VUE_APP_API+"funding");
+
+      const rates = await result.json();
+
       ctx.commit("updateFundingRates", rates);
     },
   },

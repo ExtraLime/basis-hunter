@@ -1,44 +1,58 @@
 <template>
-<div class='login-container'>
-  <h3>Login to your BasisTrade Account</h3>
-  <p class='errMsg' v-if="errMsg">{{errMsg}}</p>
-  <p><input @keyup.enter='signIn' type="email" placeholder="Email" :name='email' v-model="email" /></p>
-  <p>
-    <input @keyup.enter='signIn' type="password" placeholder="Password" v-model="password" />
-  </p>
+  <div class="login-container">
+    <h3>Login to your BasisTrade Account</h3>
+    <p class="errMsg" v-if="errMsg">{{ errMsg }}</p>
+    <p>
+      <input
+        @keyup.enter="signIn"
+        type="email"
+        placeholder="Email"
+        :name="email"
+        v-model="email"
+      />
+    </p>
+    <p>
+      <input
+        @keyup.enter="signIn"
+        type="password"
+        placeholder="Password"
+        v-model="password"
+      />
+    </p>
 
-  <p><ui-button class='loginBtn' @click="signIn" > Login </ui-button></p>
-   <a href="#" @click="google">
-      <img src='https://symbols.getvecta.com/stencil_3/0_google.d6f70b2986.svg' width='25' />
+    <p><ui-button class="loginBtn" @click="signIn"> Login </ui-button></p>
+    <a href="#" @click="google">
+      <img
+        src="https://symbols.getvecta.com/stencil_3/0_google.d6f70b2986.svg"
+        width="25"
+      />
     </a>
-    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import firebase from 'firebase/app'
-import { useRouter } from 'vue-router' // import router
-import { useStore } from 'vuex'
+import { ref } from "vue";
+import {getAuth, GoogleAuthProvider, signInWithEmailAndPassword,signInWithPopup} from "firebase/auth";
+import { useRouter } from "vue-router"; // import router
+import { useStore } from "vuex";
 
-const email = ref('')
-const password = ref('')
-const errMsg =ref(null)
-const router = useRouter() 
-const store = useStore()
-const signIn = async () => { 
-console.log(email.value)
-await
-firebase
-    .auth()
-    .signInWithEmailAndPassword(email.value, password.value) 
+const email = ref("");
+const password = ref("");
+const errMsg = ref(null);
+const router = useRouter();
+const store = useStore();
+
+const signIn = async () => {
+  const auth = getAuth()
+  await 
+    signInWithEmailAndPassword(auth, email.value, password.value)
     .then((data) => {
-      console.log('Successfully logged in!');
-      store.dispatch('auth/setUserAction',{data})
-      .finally(
-        console.log('push to about'),router.push('/')) // redirect to the router
+      console.log("Successfully logged in!");
+      store.dispatch("auth/setUserAction", { data });
+      router.push("/");
     })
-        .catch((error) => {
-          console.log(error)
+    .catch((error) => {
+      console.log(error);
       switch (error.code) {
         case "auth/invalid-email":
           errMsg.value = "Invalid email";
@@ -54,34 +68,34 @@ firebase
           break;
       }
     });
-}
+};
 const google = async () => {
-  await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((data) => {
+  const auth = getAuth()
+  const provider = new GoogleAuthProvider()
+  const result = await signInWithPopup(auth,provider)
+  await store.dispatch("auth/setUserAction", result.user);
+  router.push("/")
 
-  store.dispatch('auth/setUserAction',data.user)
-    router.push('/')
-
-  });
-}
+};
 </script>
 <style scoped>
-.login-container{
+.login-container {
   display: grid;
   justify-content: center;
   align-content: center;
   text-align: center;
 }
-.ui-button :hover{
-  color:white;
+.ui-button :hover {
+  color: white;
 }
 .ui-textfield {
-  background-color:black}
-.loginBtn{
-  color:dodgerblue;
+  background-color: black;
 }
-.errMsg{
-  color:#C31808;
+.loginBtn {
+  color: dodgerblue;
+}
+.errMsg {
+  color: #c31808;
   font: 1em Times;
 }
-
 </style>

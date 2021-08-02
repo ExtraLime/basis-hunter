@@ -1,8 +1,8 @@
 <template>
-  <div class="top">
+  <div :class='props.isAuthenticated ? "top":"loggedout"'>
     <div class="logo">
-      <img
-        src="../assets/logo.png"
+      <img 
+        src="../../assets/logo.png"
         alt=""
         width="50"
         style="{'borderRadius':'15%'}"
@@ -14,9 +14,8 @@
           <link-item :page="page" />
         </li>
       </ul>
-      <ul v-else>
-        <link-item :page="{ path: '/login', name: 'Login' }" />
-      </ul>
+      <!-- <ul v-else>
+      </ul> -->
     </div>
     <div>
       <div class="signIn">
@@ -24,7 +23,7 @@
           <li>
             <link-item
               class="logout-button"
-              @click="signOut"
+              @click="logOut"
               :page="{ path: '/#', name: 'Logout' }"
             />
           </li>
@@ -36,11 +35,11 @@
 </template>
 
 <script>
-import logo from "../assets/logo1.png";
+import logo from "../../assets/logo1.png";
 import { useStore } from "vuex";
 import { computed } from "vue";
 import LinkItem from "./LinkItem.vue";
-import firebase from "firebase/app";
+import { getAuth, signOut } from 'firebase/auth'
 import { useRouter } from "vue-router";
 export default {
   components: {
@@ -54,10 +53,9 @@ export default {
   setup(props) {
     const router = useRouter();
     const store = useStore();
-    const signOut = async () => {
-      firebase
-        .auth()
-        .signOut()
+    const auth = getAuth()
+    const logOut = async () => {
+       signOut((auth))
         .then((res) => {
           store.dispatch("auth/logoutAction", null);
         })
@@ -79,18 +77,32 @@ export default {
       return store.state.layout.pages;
     });
 
-    return { message, pages, logo, user, props, signOut };
+    return { message, pages, logo, user, props, logOut };
   },
 };
 </script>
 
 <style scoped>
+h3{
+  margin:1px;
+}
 .logo {
   display: flex;
   align-items: center;
   color: lightgrey;
-  margin: 3px;
-  float: left;
+  justify-content:center;
+  text-align:center;
+  margin:3px
+
+}
+.loggedout {
+  background: dodgerblue;
+  display: flex;
+  justify-content: center;
+  text-align:center;
+height:6rem;
+  /* align-content: center; */
+  width: 100%;
 }
 .top {
   background: dodgerblue;

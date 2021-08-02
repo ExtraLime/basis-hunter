@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Coin from "../components/Coin.vue";
+import Coin from "./Coin.vue";
 
 export default {
   components: {

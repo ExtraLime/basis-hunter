@@ -1,19 +1,18 @@
 <template>
-  <router-link
-    :to='page.path'  >
-    <ui-button >{{page.name}}</ui-button>
+  <router-link :to="page.path">
+    <ui-button>{{ page.name }}</ui-button>
   </router-link>
 </template>
 
 <script>
 export default {
   props: {
-    page:{
-      type:Object,
-      required:true
+    page: {
+      type: Object,
+      required: true,
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -24,7 +23,7 @@ button {
   cursor: pointer;
   width: 100%;
   margin-top: 10px;
-  background-color:'ligthgrey'
+  background-color: "ligthgrey";
 }
 
 button:hover {

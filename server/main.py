@@ -2,27 +2,21 @@ import os
 import requests
 import json
 import numpy as np
-import pandas as pd
 from bs4 import BeautifulSoup
-from datetime import datetime
 
 import feedparser
 from flask import Flask, jsonify
 from flask_cors import CORS
+import datetime
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"*": {"origins": "http://localhost:3000"}})
+cors = CORS(app, resources={r"*": {"origins": ['http://localhost:3000','https://dat-fin-ass.web.app','https://dat-fin-ass.firebase.app']}})
 all_products = []
-
 
 @app.route('/')
 def is_on():
-    return "API is ON"
-
-
-@app.route('/hello')
-def hello():
-    return 'Hello, World!'
+    current_time = datetime.datetime.now()
+    return f'API is working: { current_time} '
 
 
 @app.route('/newsticker')
@@ -357,10 +351,11 @@ def get_funding_data():
 @app.route('/fundingHistory')
 
 def get_historical_funding():
-     data = pd.read_csv('src/assets/funding_history7-25-21.csv')
-     data = data.to_json()
-     return jsonify(data)    
+
+    with open('funding.json','r') as f:
+        usdt_data = json.load(f)
+    return jsonify({'usdt':usdt_data})    
         
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))

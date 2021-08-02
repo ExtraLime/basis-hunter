@@ -10,32 +10,29 @@
     </div>
   </div>
 </template>
-<style scoped>
+<style lang='scss' scoped>
 .wrapper {
   height: 100vh;
   background-color: black;
-  color:lightgrey;
-            overflow-x:hidden; 
-
+  color: dodgerblue;
+  overflow-x: hidden;
 }
-.header{
-  display:flex
+.header {
+  display: flex;
+  justify-content: center;
 }
 .main {
   display: flex;
   background-color: black;
   justify-content: center;
-  width:100%
-
-  
+  width: 100%;
 }
 
 .content {
   width: 100%;
   background-color: black;
   color: white;
-
-  justify-content:center
-
+  align-self: center;
+  justify-content: center;
 }
 </style>

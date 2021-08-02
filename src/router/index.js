@@ -1,18 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import BasisApp from "../BasisApp.vue";
+import HomeView from "../views/HomeView.vue";
+import LearnView from "../views/LearnView.vue";
 import LiveView from "../views/LiveView.vue";
 import AnalyzeView from "../views/AnalyzeView.vue";
 import FinanceView from "../views/FinanceView.vue";
-import LearnView from "../views/LearnView.vue";
-import HomeView from "../views/HomeView.vue";
+
+
+
+
 
 const routes = [
-  // { path: "/",
-  //   component: HomeView,
-  //   meta:{
-  //     public:true
-  //   }
-  // },
   {
     path: "/login",
     component: HomeView,
@@ -20,25 +18,33 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: BasisApp,
+    component: BasisApp ,
     children: [
       {
         path: "/learn",
-        component: LearnView,
+        name: 'Learn',
+        component: () =>
+        import(/* webpackChunkName: "learn" */ "../views/LearnView.vue"),
       },
       {
         path: "/live",
         name: "Live",
-        component: LiveView,
+        component: () =>
+        import(/* webpackChunkName: "live" */ "../views/LiveView.vue"),
       },
       {
         path: "/analyze",
-        component: AnalyzeView,
+        name:'Analyze',
+        component: () =>
+        import(/* webpackChunkName: "analyze" */ "../views/AnalyzeView.vue")
       },
       {
         path: "/finance",
-        component: FinanceView,
+        name:'Finance',
+        component: () =>
+        import(/* webpackChunkName: "finance" */ "../views/FinanceView.vue")
       },
+
     ],
   },
 ];

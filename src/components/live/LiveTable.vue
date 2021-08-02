@@ -1,5 +1,4 @@
 <template>
-
   <table class="table">
     <thead>
       <slot name="columns">
@@ -14,13 +13,13 @@
       <tr v-for="row in tableRows" :key="row.coin">
         <slot :row="row">
           <td v-for="datum in row" :key="datum.id">
-            {{
+            <span :class="coins.includes(datum.name) ? 'rowname' : datum.name > 0 ? 'green' : 'red'">{{
               datum.name === 0
                 ? datum.name
                 : datum.name
                 ? datum.name
                 : "waiting"
-            }}
+            }}</span>
           </td>
         </slot>
       </tr>
@@ -59,7 +58,7 @@ export default {
       { name: "Coin" },
       { name: "Perpetual" },
       { name: "Quarterly" },
-      { name: "Basis" },
+      { name: "Basis (theta)" },
       { name: "Basis Rate" },
       { name: "Funding Rate" },
     ];
@@ -106,8 +105,38 @@ export default {
 
 <style scoped>
 table {
-  color: dodgerblue;
   background: black;
   font-size: 12px;
+  color:dodgerblue;
+  border: 1px solid silver;
+  margin:2rem;
+  text-align:center;
 }
+th{
+  border:1px solid silver;
+  font-size:16px
+}
+tr{
+  border:1px solid silver;
+}
+td{
+  border:1px solid silver;
+  border-radius: 5%;
+}
+.rowname{
+  color:dodgerblue;
+  font-size:16px;
+  font-weight: bold;
+}
+.green {
+  color: limegreen;
+  font-weight:bold;
+  font-size: 14px;
+}
+.red {
+  color: #C80815;
+  font-weight:bold;
+    font-size: 14px;
+}
+
 </style>

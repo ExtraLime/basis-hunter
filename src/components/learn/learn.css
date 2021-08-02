@@ -1,22 +1,28 @@
 .subpoint {
     display: grid;
     justify-content: center;
-    width:100%
+    width:100%;
+
   }
-  
+  #toggle{
+    cursor:pointer;
+  }
   .sspoint {
     color: purple;
     margin: 0px;
     align-self: center;
+
   }
   .mdc-collapse {
     display: grid;
+    cursor:pointer;
   }
   .mdc-collapse__header {
     align-items: center;
     align-self: center;
     display: grid;
     margin-bottom: 0;
+  
   }
   .mdc_collapse.mdc-collapse--expanded {
     display: grid;
@@ -64,7 +70,7 @@
     width:100%
   }
   .subpoint {
-    color: hotpink;
+    color: #FF1493;
     margin: 0px;
   }
   .intro {
@@ -72,4 +78,6 @@
   .mdc-collapse {
     justify-content: center;
     display: grid;
+    cursor:pointer;
   }
+  

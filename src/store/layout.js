@@ -3,72 +3,100 @@ export const layout = {
 
   state() {
     return {
-        pages: [
-                    {
-                        name: 'Learn',
-                        path:'/learn',
-                        description:'Learn about basis trading and discover different ways you can earn passive income with crypto'
-                    },
-                    {
-                        name: 'Live',
-                        path:'/live',
-                        description:'watch live market data, with basis rates and funding rates.'
-                    },
-                    {
-                        name: 'Analyze',
-                        path:'/analyze',
-                        description:'Analyze recent data by coin'
-                    },
-                    {
-                        name: 'Finance',
-                        path:'/finance',
-                        description:'find the best staking rates available for your coin'
-                    },
-
-                ],
-        spot:{}
-
+      pages: [
+        {
+          name: "Learn",
+          path: "/learn",
+          description:
+            "Learn about basis trading and discover different ways you can earn passive income with crypto",
+        },
+        {
+          name: "Live",
+          path: "/live",
+          description:
+            "Watch live market data, with basis rates and funding rates.",
+        },
+        {
+          name: "Analyze",
+          path: "/analyze",
+          description: "Analyze recent data by coin",
+        },
+        {
+          name: "Finance",
+          path: "/finance",
+          description: "Find the best staking rates available for your coins",
+        },
+      ],
+      spot: {},
+      fundingHistory: {},
     };
   },
-  mutations:{
+  mutations: {
     spotSocket(state, message) {
-        state.spot[message.s] = [message.c, message.P];
-
-      },
+      state.spot[message.s] = [message.c, message.P];
+    },
+    setHistoricalFunding(state, data) {
+      state.fundingHistory = data;
+    },
   },
-  actions:{
+  actions: {
     async spotSubscribe(ctx) {
-        const pairs = [
-          "adausdt",
-          "bchusdt",
-          "bnbusdt",
-          "btcusdt",
-          "dotusdt",
-          "ethusdt",
-          "linkusdt",
-          "ltcusdt",
-          "xrpusdt",'DOGEUSDT','1INCHUSDT','AAVEUSDT','ATOMUSDT','GRTUSDT','ALGOUSDT','MATICUSDT','TRXUSDT'
-        ];
-        // build query for websocket request
-        const query = pairs
-          .map((coin) => `${coin.toLowerCase()}@ticker/`)
-          .join("");
-          console.log(query)
-        try {
-          
-          const socket = new WebSocket(
-            // `wss://stream.binance.com/stream?streams=${query}`
-            'wss://stream.binance.com/stream?streams='+'adausdt@ticker/bchusdt@ticker/bnbusdt@ticker/btcusdt@ticker/dotusdt@ticker/ethusdt@ticker/linkusdt@ticker/ltcusdt@ticker/xrpusdt@ticker/dogeusdt@ticker/1inchusdt@ticker/aaveusdt@ticker/atomusdt@ticker/grtusdt@ticker/algousdt@ticker/maticusdt@ticker/trxusdt@ticker'
-          );
-          socket.onmessage = (e) => {
-            const res = JSON.parse(e.data);
-            const { c, s, P } = res.data;
-            ctx.commit("spotSocket", {  c, s, P });
-          };
-        } catch (e) {
-          console.error(e.message);
-        }
-      },
-  }
+      const pairs = [
+        "ADAUSDT",
+        "BCHUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOTUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "XRPUSDT",
+        "DOGEUSDT",
+        "1INCHUSDT",
+        "AAVEUSDT",
+        "ATOMUSDT",
+        "GRTUSDT",
+        "ALGOUSDT",
+        "MATICUSDT",
+        "TRXUSDT",
+        "SOLUSDT",
+        "STXUSDT",
+        "KSMUSDT",
+        "SUSHIUSDT",
+        "UNIUSDT",
+        "ETCUSDT",
+        "DASHUSDT",
+        "XMRUSDT",
+        "XTZUSDT",
+        "EOSUSDT",
+        "MKRUSDT",
+        "CAKEUSDT",
+      ];
+      // build query for websocket request
+      const query = pairs
+        .map((coin) => `${coin.toLowerCase()}@ticker/`)
+        .join("");
 
+      try {
+        const socket = new WebSocket(
+          // `wss://stream.binance.com/stream?streams=${query}`
+          "wss://stream.binance.com/stream?streams=" +
+            "adausdt@ticker/bchusdt@ticker/bnbusdt@ticker/btcusdt@ticker/dotusdt@ticker/ethusdt@ticker/linkusdt@ticker/ltcusdt@ticker/xrpusdt@ticker/dogeusdt@ticker/1inchusdt@ticker/aaveusdt@ticker/atomusdt@ticker/grtusdt@ticker/algousdt@ticker/maticusdt@ticker/trxusdt@ticker" +
+            "/solusdt@ticker/stxusdt@ticker/ksmusdt@ticker/sushiusdt@ticker/uniusdt@ticker/etcusdt@ticker/dashusdt@ticker/xmrusdt@ticker/xtzusdt@ticker/eosusdt@ticker/mkrusdt@ticker/cakeusdt@ticker"
+        );
+        socket.onmessage = (e) => {
+          const res = JSON.parse(e.data);
+          const { c, s, P } = res.data;
+          ctx.commit("spotSocket", { c, s, P });
+        };
+      } catch (e) {
+        console.error(e.message);
+      }
+    },
+    async getHistoricalFunding(ctx) {
+      const res = await window.fetch(process.env.VUE_APP_API+"fundingHistory");
+      const data = await res.json();
+      ctx.commit("setHistoricalFunding", data);
+    },
+  },
 };

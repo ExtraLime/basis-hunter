@@ -7,38 +7,48 @@
       <ui-tab :key="3">Margin Trading </ui-tab>
     </ui-tab-bar>
   </div>
-  <div class='tab-page' v-if="active === 0">
+  <div class="tab-page" v-if="active === 0">
     <prereqs />
   </div>
-  <div class='tab-page' v-if="active === 1">
+  <div class="tab-page" v-if="active === 1">
     <basis-trade />
   </div>
-  <div class='tab-page' v-else-if="active===2" >
-    this is for collecting funding data
-    </div>
-    <div class='tab-page' v-else-if="active===3" >
-    Explain risks about margin trading
-    </div>
+  <div class="tab-page" v-else-if="active === 2">
+    <collect-funding />
+  </div>
+  <div class="tab-page" v-else-if="active === 3">
+    <margin />
+  </div>
 </template>
 <script>
 import { useStore } from "vuex";
 import { computed, onMounted, ref } from "vue";
 
 import BasisTrade from "../components/learn/BasisTrade.vue";
-import Prereqs from "../components/learn/Prereqs.vue"
-
+import Prereqs from "../components/learn/Prereqs.vue";
+import CollectFunding from "../components/learn/CollectFunding.vue";
+import Margin from "../components/learn/Margin.vue";
+import { useConfirm } from "balm-ui";
 export default {
   components: {
-
+    CollectFunding,
     BasisTrade,
-    Prereqs
+    Prereqs,
+    Margin,
   },
   setup() {
     const store = useStore();
     onMounted(() => {
-      store.dispatch("charts/setBasisChartData", "ETH");
       store.dispatch("charts/initChartData");
+      show({
+        message:
+          "Welcome to BasisTrade. This is an informational platform only. BasisTrade does not give investment advice. In addition, an individual's place of residence may prohibit them from being offered crypto derivative products. Please check the regulations in your jurisdiction. Lastly, trade responsibly.",
+        acceptText: "I understand",
+        cancelText: "I still understand",
+      });
     });
+    const confirmed = false;
+    const show = useConfirm();
 
     const active = ref(0);
     const stream = computed(() => {
@@ -56,50 +66,32 @@ export default {
     });
     return {
       stream,
-      active
+      active,
     };
   },
 };
 </script>
 <style lang="scss" scoped >
+.mdc-tab__text-label {
+  color: dodgerblue;
+}
+.tab-page {
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}
+.tab-select {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  // overflow: hidden;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
 
-.mdc-tab__text-label{
-  color:dodgerblue
+.mdc-tab.mdc-ripple-upgraded {
+  background-color: white;
+  width: 15%;
+  color: black;
 }
-.tab-page{
-  width:100%;
-  display:grid;
-  justify-content:center
-}
-.tab-select{
-  display:inline-flex;
-  width:100%;
-  justify-content:center;
-  overflow:hidden;
-  flex-grow:0;
-  flex-shrink:0
-}
-// .mdc-tab{
-//   width:100%
-
-// }
-.mdc-tab.mdc-ripple-upgraded{
- background-color:white;
- width:15%;
- color:black
-
-}
-// .tab-select{
-//   color:white
-// }
-// .mdc-tab.mdc-tab {
-//   color:yellow;
-//   width:15rem;
-// }
-// .mdc-tab__text-label{
-//   color:'white'
-// }
-// .mdc-tab-scroller__scroll-content{
-//   width:50rem;
-// }
 </style>

@@ -1,6 +1,6 @@
 
 <template>
-  <div class="basis-plot">
+  <div class="funding-plot">
     <apexcharts
       width="1000"
       height="350"
@@ -17,35 +17,34 @@ import { useStore } from "vuex";
 import VueApexCharts from "vue3-apexcharts";
 
 export default {
-  name: "LiveChart",
+  name: "USDTFundingChart",
   components: {
     apexcharts: VueApexCharts,
   },
   setup() {
     const store = useStore();
-    const coins = computed(() => {
-      const coinList = store.state.charts.coins;
-      return coinList.map((coin) => {
-        return coin.label;
-      });
-    });
 
     const initChartData = computed(() => {
-      return store.state.charts.initChartData;
+      return store.state.layout.fundingHistory;
     });
+    const usdtData = initChartData.value.usdt;
+    const coins = Object.keys(usdtData);
+  const timestamps = usdtData.BTCUSDT.timestamps.map(tick => {
+                    const date =new Date(tick*1000)
+                    return date.toLocaleDateString()})
 
     const chartData = reactive({
       chartOptions: {
         colors: [
           "#1C1CF0",
           "#3B7A57",
-          "#D2691E",
           "#FFEF00",
-          "#E30022",
+          "#D2691E",
+
           "#00CC99",
           "#F7E7CE",
-          "#9FA91F",
-          "#0047AB",
+
+          "#0047AB"
         ],
         stroke: {
           show: true,
@@ -56,7 +55,7 @@ export default {
           dashArray: 0,
         },
         xaxis: {
-          categories: initChartData.value.labels,
+          categories: timestamps,
           labels: {
             show: false,
           },
@@ -77,22 +76,17 @@ export default {
             background: "black",
           },
           shared: true,
-          y: {
-            formatter: function (val) {
-              return val.toFixed(5);
-            },
-          },
         },
         yaxis: {
           title: {
             text: "Rate",
           },
+   
           labels: {
             formatter: function (val) {
-              return val.toFixed(5);
+              return parseFloat(val).toFixed(5);
             },
           },
-          max: 0.11,
         },
         chart: {
           id: "basis",
@@ -107,21 +101,15 @@ export default {
           size: 0,
         },
         title: {
-          text: "Recent Basis Rates",
+          text: "Funding Rates from "+timestamps[0]+" to "+timestamps[timestamps.length-1],
           align: "center",
         },
       },
-      series: coins.value.map((coin) => {
-        const data = initChartData.value.datasets.filter(
-          (data) => data.name === coin
-        );
-        return data[0];
+      series: coins.map((coin) => {
+        const data = usdtData[`${coin}`].data;
+        return { name: coin, data: data };
       }),
     });
-
-    // setInterval(() => {
-
-    // }, 5000);
 
     return {
       initChartData,
