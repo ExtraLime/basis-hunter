@@ -4,7 +4,7 @@ FROM python:3.9-slim
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
-RUN pip install Flask gunicorn numpy feedparser requests flask-cors beautifulsoup4
+RUN pip install Flask gunicorn numpy feedparser requests flask-cors beautifulsoup4 lxml
 
 # Copy local code to the container image.
 

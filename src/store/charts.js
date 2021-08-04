@@ -35,6 +35,10 @@ export const charts = {
     chartsData(state) {
       return state.chartsData;
     },
+    analyzeKeys(state) {
+     const { analyzeCoin, analyzeInterval } = state
+      return {analyzeCoin,analyzeInterval}
+    }
   },
   mutations: {
     setAnalyzeCoin(state, data) {

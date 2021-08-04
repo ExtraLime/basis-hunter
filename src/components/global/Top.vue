@@ -92,8 +92,12 @@ h3{
   color: lightgrey;
   justify-content:center;
   text-align:center;
-  margin:3px
+  margin:3px;
+  border-radius:3%;
 
+}
+img{
+  border-radius:15%;
 }
 .loggedout {
   background: dodgerblue;

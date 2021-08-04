@@ -181,6 +181,7 @@ def get_rates():
                         lock = 1
                         lockTerm = i['term']
                         dType = 'deposit'
+                        icon = 'lock'
                     all_products.append({
                         'key': f'h{i["projectId"]}',
                         'asset': i['currency'],
@@ -217,7 +218,7 @@ def get_rates():
                     'asset': i['holdCoin'],
                     'bonusRate': 'n/a',
                     'bonusAsset': 'n/a',
-                    'apy': float(i['lastEarningRate'])*100,
+                    'apy': float(i['lastEarningRate'])/100,
                     'lock': 0,
                     'icon': 'lock_open',
                     'refer': 'https://www.binance.us/en/staking',
@@ -287,7 +288,8 @@ def get_rates():
             nexo = soup.find_all('div',{'class':"-mb-32"})
             rates = [float(i.text)/100 for i in nexo[1].find_all('span',{'class':'value'})]
             urls = [i['src'] for i in nexo[1].find_all('img')]
-            assets = [i.text.strip().split(' ')[0] for i in nexo[1].find_all('small')]
+            assets = [i.text.strip().split(' ')[1] for i in nexo[1].find_all('small')]
+            print(assets)
             for i in range(len(rates)):
                 print(i)
                 product = {

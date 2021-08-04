@@ -81,8 +81,7 @@ export const layout = {
         const socket = new WebSocket(
           // `wss://stream.binance.com/stream?streams=${query}`
           "wss://stream.binance.com/stream?streams=" +
-            "adausdt@ticker/bchusdt@ticker/bnbusdt@ticker/btcusdt@ticker/dotusdt@ticker/ethusdt@ticker/linkusdt@ticker/ltcusdt@ticker/xrpusdt@ticker/dogeusdt@ticker/1inchusdt@ticker/aaveusdt@ticker/atomusdt@ticker/grtusdt@ticker/algousdt@ticker/maticusdt@ticker/trxusdt@ticker" +
-            "/solusdt@ticker/stxusdt@ticker/ksmusdt@ticker/sushiusdt@ticker/uniusdt@ticker/etcusdt@ticker/dashusdt@ticker/xmrusdt@ticker/xtzusdt@ticker/eosusdt@ticker/mkrusdt@ticker/cakeusdt@ticker"
+            "adausdt@ticker/bchusdt@ticker/bnbusdt@ticker/btcusdt@ticker/dotusdt@ticker/ethusdt@ticker/linkusdt@ticker/ltcusdt@ticker/xrpusdt@ticker"
         );
         socket.onmessage = (e) => {
           const res = JSON.parse(e.data);

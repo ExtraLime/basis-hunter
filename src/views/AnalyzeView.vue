@@ -10,8 +10,9 @@
   </div>
 </template>
 <script>
-import { computed } from "vue";
+import { onMounted, computed, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import CoinSelect from "../components/analyze/CoinSelect.vue";
 import AnalyzeCharts from "../components/analyze/AnalyzeCharts.vue";
 import Histo from "../components/analyze/Histo.vue";
@@ -24,6 +25,12 @@ export default {
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+    onMounted(() => {
+      store.dispatch("charts/getChartsData");
+    });
+
+
     const chartsData = computed(() => {
       const data = store.state.charts.chartsData;
       return data;

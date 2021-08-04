@@ -22,7 +22,8 @@
 </template>
 <script>
 import { useStore } from "vuex";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref  } from "vue";
+import {useRoute} from 'vue-router'
 export default {
   props: {
     coin: {
@@ -33,9 +34,11 @@ export default {
     },
   },
   setup(props) {
-    const selectedCoin = ref('ETH');
-    const selectedInterval = ref('4h');
+
+    const selectedCoin = ref(props.coin);
+    const selectedInterval = ref(props.interval);
     const store = useStore();
+    const route = useRoute()
     const coins = computed(() => {
       return store.state.charts.coins;
     });
@@ -47,6 +50,8 @@ export default {
       store.dispatch("charts/getChartsData");
       return;
     };
+
+
 
     return {
       coins,
