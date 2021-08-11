@@ -350,6 +350,36 @@ def get_funding_data():
         print(e)
         return [rates]
 
+@app.route('/ufunding')
+
+def get_ufunding_data():
+    res = requests.get("https://fapi.binance.com/fapi/v1/premiumIndex").json()
+    bases = [
+        "ADAUSDT",
+        "BCHUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOTUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "XRPUSDT"
+      ]
+    rates = {}
+    for re in res:
+        if re['symbol'] in bases:
+            print(re)
+            print(rates)
+            rates[re['symbol'].replace('USDT', '')] = float(re['lastFundingRate'])
+        else:
+            pass
+        print(rates)
+    try:
+        return jsonify(rates)
+    except Exception as e:
+        print(e)
+        return [rates]
+
 @app.route('/fundingHistory')
 
 def get_historical_funding():

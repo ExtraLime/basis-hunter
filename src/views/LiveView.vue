@@ -11,21 +11,20 @@
   </div> -->
 
   <div class="top-line">
-    <h4>Live Market Rates (binance) </h4>
+    <h5>Live Market Rates (binance) </h5>
     <div class='lastTick'>-Last tick: {{ lastTick }}</div>
   </div>
 
   <div class="live">
     <div class="basis-tick">
       <basis-tick />
+      <funding-tick />
     </div>
+
     <div class="live-table">
       <live-table />
     </div>
 
-    <div class="funding-tick">
-      <funding-tick />
-    </div>
   </div>
 </template>
 <script>

@@ -2,8 +2,8 @@
 <template>
   <div class="tick-plot">
     <apexcharts
-      width="350"
-      height="350"
+      width="400"
+      height="250"
       type="line"
       :options="chartData.chartOptions"
       :series="chartData.series"
@@ -33,15 +33,15 @@ export default {
     const chartData = reactive({
       chartOptions: {
         colors: [
-          "#1C1CF0",
-          "#3B7A57",
-          "#D2691E",
-          "#FFEF00",
-          "#E30022",
-          "#00CC99",
-          "#F7E7CE",
-          "#9FA91F",
-          "#0047AB",
+          "#3001ff",
+          "#FF4500",
+          "#b8a228",
+          "#ffd700",
+          "#FF1493",
+          "#0cb6a9",
+          "#000080",
+          "#a9a9a9",
+          "#0f72e5",
         ],
         stroke: {
           show: true,

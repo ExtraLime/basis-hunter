@@ -77,7 +77,7 @@ export default {
       };
     });
     const funding = computed(() => {
-      return store.state.live.fundingData;
+      return store.state.live.uFunding;
     });
     const rate = (parseFloat(funding.value.ETH) * 100).toFixed(4);
     const spot = computed(() => {

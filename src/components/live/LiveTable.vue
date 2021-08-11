@@ -62,12 +62,14 @@ export default {
       { name: "Quarterly" },
       { name: "Basis (theta)" },
       { name: "Basis Rate" },
-      { name: "Funding Rate" },
+      { name: "USDT Rate" },
+      { name: "Coin Rate" },
     ];
 
     const tableRows = computed(() => {
       const tableData = store.state.live.messages;
       const fundingData = store.state.live.fundingData;
+      const uFunding = store.state.live.uFunding
       const spotData = store.state.layout.spot;
       const d = coins.map((coin) => {
         let basis =
@@ -77,6 +79,7 @@ export default {
         let basisRate = basis / parseFloat(tableData[`${coin}USD_PERP`]);
         const coinName = `${coin}`;
         const fundingRate = fundingData[coinName];
+        const uRate = uFunding[coinName]
 
         const perp = parseFloat(tableData[`${coin}USD_PERP`]);
         const qrt = parseFloat(tableData[`${coin}USD_210924`]);
@@ -84,7 +87,7 @@ export default {
         const spotDelta = parseFloat(spotData[`${coin}USDT`][1]);
 
         return [
-          { name: coin, id: 0, style: "rowname" },
+          { name: coin, id: 0, style: `${coin}` },
           {
             name: spotDelta.toFixed(3) + "%",
             id: 1,
@@ -118,10 +121,15 @@ export default {
             name: (basisRate * 100).toFixed(4)+'%',
             id: 6,
             style: basisRate > 0 ? "green" : "red",
+          }, 
+          {
+            name: (uRate*100).toFixed(5)+'%',
+            id: 7,
+            style: uRate > 0 ? "green" : "red",
           },
           {
             name: (fundingRate*100).toFixed(5)+'%',
-            id: 7,
+            id: 8,
             style: fundingRate > 0 ? "green" : "red",
           },
         ];
@@ -132,6 +140,7 @@ export default {
 
     const updateFunding = setInterval(() => {
       store.dispatch("live/getFundingData");
+      store.dispatch('live/getUFunding')
     }, 10000);
 
     return {
@@ -159,12 +168,11 @@ th {
 }
 tr {
   border: 1px solid silver;
-  padding:1rem
 }
 td {
   border: 1px solid silver;
   border-radius: 5%;
-  padding:0.25rem;
+  padding:.75rem .25rem .75rem .25rem;
 }
 .rowname {
   color: dodgerblue;
@@ -186,4 +194,50 @@ td {
   font-weight: bold;
   font-size: 14px;
 }
+.ADA{
+  color:#3001ff;
+  font-size: 16px;
+  font-weight: bolder
+}
+.BCH{
+  color:orange;
+  font-size: 16px;
+  font-weight: bolder
+}
+.BNB{
+  color:#b8a228;
+  font-size: 16px;
+  font-weight: bolder
+}
+.BTC{
+  color:#ffd700;
+  font-size: 16px;
+  font-weight: bolder
+}
+.DOT{
+  color:#ff1493;
+  font-size: 16px;
+  font-weight: bolder
+}
+.ETH{
+  color:#0cb6a9;
+  font-size: 16px;
+  font-weight: bolder
+}
+.LINK{
+  color:navy;
+  font-size: 16px;
+  font-weight: bolder
+}
+.LTC{
+  color:darkgrey;
+  font-size: 16px;
+  font-weight: bolder
+}
+.XRP{
+  color:#0f72e5;
+  font-size: 16px;
+  font-weight: bolder
+}
+
 </style>

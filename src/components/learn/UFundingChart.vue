@@ -36,15 +36,15 @@ export default {
     const chartData = reactive({
       chartOptions: {
         colors: [
-          "#1C1CF0",
-          "#3B7A57",
-          "#FFEF00",
-          "#D2691E",
-
-          "#00CC99",
-          "#F7E7CE",
-
-          "#0047AB"
+          "#3001ff",
+          "#FF4500",
+          "#b8a228",
+          "#ffd700",
+    
+          "#0cb6a9",
+          "#000080",
+          "#a9a9a9",
+          "#0f72e5",
         ],
         stroke: {
           show: true,

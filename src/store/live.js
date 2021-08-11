@@ -7,6 +7,7 @@ export const live = {
       query: "",
       messages: {},
       fundingData: {},
+      uFunding:{},
       basisLive: {},
       fundingLive: {},
       spot: {},
@@ -23,6 +24,9 @@ export const live = {
     },
     updateFundingRates(state, rates) {
       state.fundingData = rates;
+    },
+    updateUFundingRates(state, rates) {
+      state.uFunding = rates;
     },
   },
   actions: {
@@ -84,6 +88,14 @@ export const live = {
       const rates = await result.json();
 
       ctx.commit("updateFundingRates", rates);
+    },
+    async getUFunding(ctx) {
+      const result = await window.fetch("http://0.0.0.0:8080/ufunding");
+      // process.env.VUE_APP_API
+      const rates = await result.json();
+      console.log(rates)
+
+      ctx.commit("updateUFundingRates", rates);
     },
   },
 };
