@@ -7,10 +7,11 @@ export const live = {
       query: "",
       messages: {},
       fundingData: {},
-      uFunding:{},
+      uFunding: {},
       basisLive: {},
       fundingLive: {},
       spot: {},
+      uData: {},
     };
   },
   mutations: {
@@ -21,6 +22,9 @@ export const live = {
     socketData(state, message) {
       state.messages[message.s] = message.c;
       state.messages["timestamp"] = message.E;
+    },
+    uData(state, message) {
+      state.uData[message.s] = message.c;
     },
     updateFundingRates(state, rates) {
       state.fundingData = rates;
@@ -51,6 +55,23 @@ export const live = {
         query: query.join(""),
       });
     },
+    async subscribeU(ctx) {
+      try {
+        const socket = new WebSocket(
+          `wss://fstream.binance.com/stream?streams=ethusdt@ticker`
+        );
+        socket.onmessage = (e) => {
+          const res = JSON.parse(e.data);
+
+          const { E, c, s } = res.data;
+
+          ctx.commit("uData", { E, c, s });
+        };
+      } catch (e) {
+        console.error(e.message);
+      }
+    },
+
     async subscribe(ctx) {
       const res = await window.fetch(
         "https://dapi.binance.com/dapi/v1/exchangeInfo"
@@ -83,17 +104,16 @@ export const live = {
     },
 
     async getFundingData(ctx) {
-      const result = await window.fetch(process.env.VUE_APP_API+"funding");
+      const result = await window.fetch(process.env.VUE_APP_API + "funding");
 
       const rates = await result.json();
 
       ctx.commit("updateFundingRates", rates);
     },
     async getUFunding(ctx) {
-      const result = await window.fetch("http://0.0.0.0:8080/ufunding");
-      // process.env.VUE_APP_API
+      const result = await window.fetch(process.env.VUE_APP_API + "ufunding");
+      //
       const rates = await result.json();
-      console.log(rates)
 
       ctx.commit("updateUFundingRates", rates);
     },

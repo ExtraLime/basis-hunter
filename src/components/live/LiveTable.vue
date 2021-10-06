@@ -73,7 +73,7 @@ export default {
       const spotData = store.state.layout.spot;
       const d = coins.map((coin) => {
         let basis =
-          parseFloat(tableData[`${coin}USD_210924`]) -
+          parseFloat(tableData[`${coin}USD_211231`]) -
           parseFloat(tableData[`${coin}USD_PERP`]);
 
         let basisRate = basis / parseFloat(tableData[`${coin}USD_PERP`]);
@@ -82,7 +82,7 @@ export default {
         const uRate = uFunding[coinName]
 
         const perp = parseFloat(tableData[`${coin}USD_PERP`]);
-        const qrt = parseFloat(tableData[`${coin}USD_210924`]);
+        const qrt = parseFloat(tableData[`${coin}USD_211231`]);
         const spot = parseFloat(spotData[`${coin}USDT`][0]);
         const spotDelta = parseFloat(spotData[`${coin}USDT`][1]);
 

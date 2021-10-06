@@ -52,6 +52,7 @@ export default {
       store.dispatch("live/getFundingData");
       store.dispatch("charts/getChartsData");
       store.dispatch("live/subscribe");
+      store.dispatch("live/subscribeU");
       store.dispatch("layout/spotSubscribe");
       store.dispatch("charts/initChartData");
       store.dispatch("charts/getKLineHistogramData", "ETH");

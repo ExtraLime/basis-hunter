@@ -4,9 +4,6 @@
   </div>
   <div class="analyze-charts">
     <analyze-charts :dData="chartsData" />
-    <!-- <div class="histograms">
-      <histo />
-    </div> -->
   </div>
 </template>
 <script>
@@ -15,13 +12,12 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import CoinSelect from "../components/analyze/CoinSelect.vue";
 import AnalyzeCharts from "../components/analyze/AnalyzeCharts.vue";
-import Histo from "../components/analyze/Histo.vue";
+
 
 export default {
   components: {
     CoinSelect,
     AnalyzeCharts,
-    // Histo,
   },
   setup() {
     const store = useStore();

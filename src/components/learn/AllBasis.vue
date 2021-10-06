@@ -119,10 +119,6 @@ export default {
       }),
     });
 
-    // setInterval(() => {
-
-    // }, 5000);
-
     return {
       initChartData,
       chartData,

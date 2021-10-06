@@ -72,7 +72,7 @@ export const layout = {
         "MKRUSDT",
         "CAKEUSDT",
       ];
-      // build query for websocket request
+      // build query for websocket request - optional very laggy
       const query = pairs
         .map((coin) => `${coin.toLowerCase()}@ticker/`)
         .join("");

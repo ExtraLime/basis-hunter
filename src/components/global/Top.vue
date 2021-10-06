@@ -14,8 +14,6 @@
           <link-item :page="page" />
         </li>
       </ul>
-      <!-- <ul v-else>
-      </ul> -->
     </div>
     <div>
       <div class="signIn">
@@ -64,10 +62,6 @@ export default {
         });
     };
 
-    // const isAuthenticated = computed(() => {
-    //   return store.state.auth.isAuthtenticated;
-    // });
-
     const user = computed(() => {
       return store.state.auth.user;
     });
@@ -105,15 +99,12 @@ img{
   justify-content: center;
   text-align:center;
 height:6rem;
-  /* align-content: center; */
   width: 100%;
 }
 .top {
   background: dodgerblue;
   display: flex;
   justify-content: space-evenly;
-
-  /* align-content: center; */
   width: 100%;
 }
 
@@ -124,11 +115,6 @@ ul {
 
   width: 100%;
 }
-
-/* .logout-button{
-  float:right;
-  justify-self: right;
-} */
 .menu {
   justify-self: center;
 }

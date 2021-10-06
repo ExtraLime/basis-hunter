@@ -49,6 +49,7 @@ import { useStore } from "vuex";
 import { ref, onMounted } from "vue";
 export default {
   setup() {
+    //this needs to be fixed, always one step behind
     const stable = ref("off");
     const isFlex = ref("off");
 

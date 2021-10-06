@@ -6,10 +6,6 @@ import LiveView from "../views/LiveView.vue";
 import AnalyzeView from "../views/AnalyzeView.vue";
 import FinanceView from "../views/FinanceView.vue";
 
-
-
-
-
 const routes = [
   {
     path: "/login",
@@ -53,14 +49,5 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-
-// router.beforeEach((to, from, next) => {
-//  if (store.state.auth.isAuthenticated){
-//    next()
-//  }else {
-//    next('/home')
-//  }
-
-// });
 
 export default router;

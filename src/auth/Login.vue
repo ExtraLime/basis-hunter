@@ -19,7 +19,7 @@
         v-model="password"
       />
     </p>
-
+    <!-- provide option to sign in with google -->
     <p><ui-button class="loginBtn" @click="signIn"> Login </ui-button></p>
     <a href="#" @click="google">
       <img

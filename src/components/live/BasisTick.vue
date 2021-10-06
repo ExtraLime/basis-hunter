@@ -120,21 +120,10 @@ export default {
       return data;
     });
     setInterval(() => {
-      // let yMax = Math.max(
-      //   ...chartData.series.map((coin) => {
-      //     return Math.max(...coin.data);
-      //   })
-      // );
-  
-      // let yMin = Math.min(
-      //   ...chartData.series.map((coin) => {
-      //     return Math.min(...coin.data);
-      //   })
-      // );
   
       for (let i = 0; i < coins.value.length; i++) {
         let p = tickData.value[`${coins.value[i]}USD_PERP`];
-        let q = tickData.value[`${coins.value[i]}USD_210924`];
+        let q = tickData.value[`${coins.value[i]}USD_211231`];
         chartData.series[i].data.shift();
   
 
@@ -143,8 +132,6 @@ export default {
       let t = new Date(tickData.value.timestamp);
       chartData.chartOptions.xaxis.categories.shift();
       chartData.chartOptions.xaxis.categories.push(t.toLocaleTimeString());
-      // chartData.chartOptions.yaxis.max = yMax;
-      // chartData.chartOptions.yaxis.min = yMin;
     }, 2000);
 
     return {

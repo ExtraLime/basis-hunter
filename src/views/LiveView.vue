@@ -4,12 +4,6 @@
       <news-feed />
     </div>
   </div>
-  <!-- <div class="ticker-container">
-    <div class="ticker-wrap">
-      <spot-ticker />
-    </div>
-  </div> -->
-
   <div class="top-line">
     <h5>Live Market Rates (binance) </h5>
     <div class='lastTick'>-Last tick: {{ lastTick }}</div>

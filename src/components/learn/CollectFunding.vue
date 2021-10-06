@@ -24,16 +24,16 @@
         <h4>
         The rates and funding intervals differ across exchanges. On Binance, it usually hovers around .01%
         in normal market conditions, but has outer bounds at -0.375% and 0.375%. The funding interval is 8 hours.
-        Currently, the funding rate for is ETH in the coin settlement market is
+        Currently, the funding rate for is ETH in the USDT settlement market is
         <span :class="spot.fee < 0 ? 'short' : 'long'">{{ rate }}%</span>
         (binance). Therefor one could buy 1 ETH in the spot market for
         <span class="long">${{ spot.price }} </span> and sell 1 ETH in the
-        perpetual spot market at: <span class="short"> ${{ stream.perp }}</span
+        perpetual spot market at: <span class="short"> ${{ uData.ETHUSDT }}</span
         >. This means every 8 hours
         <span :class="spot.fee < 0 ? 'short' : 'long'">${{ spot.fee }}</span>
-        worth of ETH could be collected/paid. This doesn't seem like much of a
+        USDT could be collected/paid. This doesn't seem like much of a
         return on ${{ (parseFloat(stream.perp)+parseFloat(spot.price)).toFixed(2) }}. Assuming a constant price and rate,
-        thats
+        that's
         <span :class="spot.fee < 0 ? 'short' : 'long'">${{ spot.daily }} </span>
         a day, or
         <span :class="spot.fee < 0 ? 'short' : 'long'">${{ spot.yearly }}</span>
@@ -88,11 +88,16 @@ export default {
       const yearly = (daily * 365).toFixed(2);
       return { price, fee, yearly, daily };
     });
+    const uData = computed(()=>{
+     const data = store.state.live.uData
+      return data
+    })
 
     return {
       stream,
       rate,
       spot,
+      uData
     };
   },
 };

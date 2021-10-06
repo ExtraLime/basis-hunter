@@ -33,7 +33,6 @@ import { computed, reactive } from "vue";
 import LineChart from "./LineChart.vue";
 export default {
   components: {
-    // apexcharts: VueApexCharts,
     LineChart,
   },
   props: {

@@ -84,7 +84,6 @@ export default {
   display: inline-flex;
   width: 100%;
   justify-content: center;
-  // overflow: hidden;
   flex-grow: 0;
   flex-shrink: 0;
 }

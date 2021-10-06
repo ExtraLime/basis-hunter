@@ -10,12 +10,7 @@ import  BalmUI from 'balm-ui'
 import BalmUIPlus from 'balm-ui/dist/balm-ui-plus';
 import "../node_modules/balm-ui/dist/balm-ui.css";
 import $theme from "../node_modules/balm-ui/plugins/theme";
-// import UiButton from 'balm-ui/components/button';
-// import UiIcon from 'balm-ui/components/icon';
-// import UiTabsComponents from 'balm-ui/components/tabs';
-// import UiSelect from 'balm-ui/components/select';
-// import UiSwitch from 'balm-ui/components/switch';
-// import UiCollapse from 'balm-ui/components/collapse';
+
 
 //firebase imports
 import { getAuth,  onAuthStateChanged } from "firebase/auth"
@@ -51,18 +46,7 @@ app.use(BalmUI, {
   },
   $typography: ["dodgerstyle"]
 });
-// app.use(UiButton)
-// app.use(UiIcon)
-// app.use(UiTabsComponents)
-// app.use(UiSelect)
-// app.use(UiSwitch)
-// app.use(UiCollapse)
-// app.use($theme, {
-//   primary: "lightgrey",
-//   secondary: "dodgerblue",
-//   background: "black",
-//   error: "#c80815",
-//   surface: "grey"})
+
 
 app.use(VueApexCharts);
 app.use(BalmUIPlus);

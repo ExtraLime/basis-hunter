@@ -43,13 +43,7 @@ export const finance = {
       ctx.commit('setIsFlex',filters)
       ctx.commit('setStable',filters)
 
-      // console.log(ctx.state.isFlex)
-      // console.log(ctx.state.stable)
-      // console.log(ctx.state.filters,ctx.state.filters.isFlex,ctx.state.filters.stable)
-      // const flex = ctx.state.filters.stable.value
-      // console.log(flex)
-      // console.log(ctx.state.filters.isFlex)
-      // console.log(ctx.state.filters.stable)
+
       const results = ctx.state.filteredResults
  if(ctx.state.filters.isFlex==='off' && ctx.state.filters.stable==='off'){
   console.log('show all')
@@ -58,15 +52,6 @@ export const finance = {
   console.log("only flex")
 
 }
-      // if(filters.isFlex.value === true && filters.stable.value === true){
-      //   console.log(results.filter(res => stables.includes(res.asset) && res.lock === 0))
-      //   ctx.commit('setFilteredResults',results.filter(res => stables.includes(res.asset) && res.lock === 0))
-      // } else if (filters.isFlex._value === true && filters.stable._value === false){
-      //   console.log(results.filter(res => res.lock === 0).filter((result) =>
-      //   result.asset.includes(ctx.state.financeCoin.toUpperCase())))
-      //   ctx.commit('setFilteredResults', results.filter(res => res.lock === 0))
-
-      // } 
 
     },
     setFinanceCoin(ctx, input) {

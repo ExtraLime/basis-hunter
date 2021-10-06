@@ -22,7 +22,7 @@
 </template>
 <script>
 import { useStore } from "vuex";
-import { computed, onMounted, ref  } from "vue";
+import { computed, ref  } from "vue";
 import {useRoute} from 'vue-router'
 export default {
   props: {
